@@ -1,0 +1,10 @@
+#summary Other related projects
+= Other related projects =
+
+== MatLab ==
+
+Vincent Rabraud's toolbox : http://code.google.com/p/vincents-structure-from-motion-matlab-toolbox/
+
+== C/C++ ==
+
+Libmv API : http://code.google.com/p/libmv/
