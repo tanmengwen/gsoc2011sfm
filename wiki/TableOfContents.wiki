@@ -1,0 +1,3 @@
+ * [ProjectPresentation Presentation]
+ * [Ideas Ideas and ToDo list]
+ * [StartOfArt Other libraries about SfM]
