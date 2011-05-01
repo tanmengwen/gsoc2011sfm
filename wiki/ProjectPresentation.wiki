@@ -22,8 +22,3 @@ After some research on the topic, it appears that the API should at least allow 
 <p>This GSoC will try to produce <strong>an high-quality dense 3D reconstruction for rigid models</strong>. Sub-pixels points detections, robust transformations estimations and sub-pixel dense displacement computation will be implemented into an <strong>efficient and scalable</strong> API.<br/><br/>
 <img alt="Example" src="http://charlie-soft.com/Structure%20from%20motion/exemple.png"/>
 <img alt="Example1" src="http://charlie-soft.com/Structure%20from%20motion/exemple1.png" align="right" /></p>
-
-<h2>Table of Contents</h2>
-For now, a few resources are available but I hope with time this will grow up!<br/>
-
-<wiki:toc max_depth="1"></wiki:toc>
