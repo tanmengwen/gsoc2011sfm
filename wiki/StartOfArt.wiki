@@ -1,10 +1,10 @@
 #summary Other related projects
 = Other related projects =
 
-== MatLab ==
+== !MatLab ==
 
 Vincent Rabraud's toolbox : http://code.google.com/p/vincents-structure-from-motion-matlab-toolbox/
 
 == C/C++ ==
 
-Libmv API : http://code.google.com/p/libmv/
+libmv is a structure from motion library, which plans to one day take raw video footage or photographs, and produce full camera calibration information and dense 3D models : http://code.google.com/p/libmv/
