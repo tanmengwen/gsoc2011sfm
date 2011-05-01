@@ -1,5 +1,4 @@
 #summary Presentation of this API's goals.
-#labels Featured
 #sidebar TableOfContents
 
 <h1>OpenCV & Structure from motion</h1>
