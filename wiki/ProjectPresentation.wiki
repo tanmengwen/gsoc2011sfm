@@ -1,6 +1,7 @@
 #summary Presentation of this API's goals.
 #sidebar TableOfContents
 
+<img alt="Structure from motion" src="http://charlie-soft.com/Structure%20from%20motion/opencvLogoFinal.png" align="left" width="100px"/>
 <h1>OpenCV & Structure from motion</h1>
 <h2>Overall presentation</h2>
 <p><img alt="Structure from motion" src="http://charlie-soft.com/Structure%20from%20motion/degrad.png"  align="right"/>
