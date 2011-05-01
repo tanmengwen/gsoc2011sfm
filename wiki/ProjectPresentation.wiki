@@ -2,10 +2,10 @@
 
 <h1>OpenCV & Structure from motion</h1>
 <h2>Overall presentation</h2>
-<p><img alt="Structure from motion" src="http://charlie-soft.com/Structure%20from%20motion/degrad.png"  align="right"/></p>
+<p><img alt="Structure from motion" src="http://charlie-soft.com/Structure%20from%20motion/degrad.png"  align="right"/>
 To allow use of simple but scalable API, I propose an organization based on abstract classes.<br/>
 This separation should allow to modify the treatments for various processing blocks. Before detailing the proposed implementation, we must try to identify the different needs and constraints.<br/><br/>
-After some research on the topic and some discussions with Mr Rabaud, it appears that the API should at least allow users to:<br/>
+After some research on the topic and some discussions with Mr Rabaud, it appears that the API should at least allow users to:</p>
 <ul>
      <li>Manage one or several cameras (I mean physical device) in a sequence (stereovision, single camera, multivision...).</li>
      <li>Each camera can be of different type (Fisheye, with/without radial distortion, various intra-parameters...).</li>
@@ -17,6 +17,6 @@ After some research on the topic and some discussions with Mr Rabaud, it appears
      <li>Compute missing data (intra/extra parameters, 3D points,...)</li>
      <li>Show the points cloud using an interactive visualization</li>
 </ul><br/>
-<em>This GSoC will try to produce <strong>an high-quality dense 3D reconstruction for rigid models</strong>. Sub-pixels points detections, robust transformations estimations and sub-pixel dense displacement computation will be implemented into an <strong>efficient and scalable</strong> API.</em><br/><br/>
+<p>This GSoC will try to produce <strong>an high-quality dense 3D reconstruction for rigid models</strong>. Sub-pixels points detections, robust transformations estimations and sub-pixel dense displacement computation will be implemented into an <strong>efficient and scalable</strong> API.<br/><br/>
 <img alt="Example" src="http://charlie-soft.com/Structure%20from%20motion/exemple.png"/>
-<img alt="Example1" src="http://charlie-soft.com/Structure%20from%20motion/exemple1.png" align="right" />
+<img alt="Example1" src="http://charlie-soft.com/Structure%20from%20motion/exemple1.png" align="right" /></p>
