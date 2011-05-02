@@ -1,0 +1,17 @@
+#summary Abstract class to search for points matching
+
+This wiki page is not the API documentation. Indeed, Doxygen will do it for us. It's only for sharing ideas...
+
+= Role =
+
+The aim of this class is to find good matches between points of FieldOfView.
+We have to take into account:
+ * Possibility to match 2/more different views
+ * Possibility to use features of point when available
+ * Use the fundamental matrix to improve the matching estimation
+
+= Attributes =
+{{{
+vector<FieldOfView > foVs;
+map<int,int> matches;
+}}}
