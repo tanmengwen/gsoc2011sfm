@@ -1,0 +1,9 @@
+#summary Intra and distortion infos about the camera
+
+This wiki page is not the API documentation. Indeed, Doxygen will do it for us. It's only for sharing ideas...
+
+= Role =
+
+This class represent the physical device which take the pictures. It is not related to a 3D position (see [FieldOfView]). This class owns a vector of FieldOfView which can be used to estimate the different parameters.
+
+= attribute =
