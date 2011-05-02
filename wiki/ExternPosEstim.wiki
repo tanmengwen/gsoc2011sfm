@@ -1,13 +1,11 @@
 #summary Main class for SfM estimation
 
-= Introduction =
+This wiki page is not the API documentation. Indeed, Doxygen will do it for us. It's only for sharing ideas...
 
-Add your content here.
+= Role =
 
+Using different [FieldOfView], this class will try to find the extern parameters of the different [Camera].
 
-= Details =
+See other projects to see how methods are implemented (which methods should be implemented here or in child class)
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= Attributes =
