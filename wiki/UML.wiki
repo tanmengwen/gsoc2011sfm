@@ -37,17 +37,17 @@ How will we change or compute things with our nice camera ?
 //If we want to do some steps with particular methods, we can then doing it like that:
 //Example: use SURF points detections and BruteForceMatching
    SURFDetect algoDetect(params); //See documentation for params details
-   cam.setDetectAlgo(algoDetect); //Now when points are needed for a FoV from <i>cam</i>, SURF method will be used.  
+   cam.setDetectAlgo(algoDetect); //Now when points are needed for a FoV from cam, SURF method will be used.  
    BFMatcher<HammingLUT> matchsAlgo;  
    cam.setMatchAlgo(matchsAlgo);//Now if we need matching, brute force will be used.    
    vector<vector<Point3f>> objectPoints= ??? ;//3D points of the calibration pattern in its coordinate system...
-   cam1.calibrateCamera(objectPoints)//Compute intra and extern parameters using images <i>cam1</i> have (using cv::calibrateCamera)...
+   cam1.calibrateCamera(objectPoints)//Compute intra and extern parameters using images cam1 have (using cv::calibrateCamera)...
 }}}
 <br/>
 
 What can we get from a camera ?
 {{{
-   cv::Mat K=cam3.getInternalParameters(CV_PROJECTIVE,CV_FM_RANSAC);//get the internal coefs of cam3... The parameter <i>CV_PROJECTIVE</i> says that if internal coefs are not computed then try to estimate the coefs using cv::cvFindFundamentalMat and cv::decomposeprojectionmatrix (We can find projection matrices using decomposition of F)
+   cv::Mat K=cam3.getInternalParameters(CV_PROJECTIVE,CV_FM_RANSAC);//get the internal coefs of cam3... The parameter CV_PROJECTIVE says that if internal coefs are not computed then try to estimate the coefs using cv::cvFindFundamentalMat and cv::decomposeprojectionmatrix (We can find projection matrices using decomposition of F)
 //Of course, this estimation can be upgraded to perspective or metric recontruction if wanted using different parameters... Details not yet found.
    cv::Mat img=cam3.getImage(0);//get the first image of cam3...
    pcl::PointCloud<pcl::PointXYZ> world=cam3.getAllObjects();//get all objects found with cam3...
