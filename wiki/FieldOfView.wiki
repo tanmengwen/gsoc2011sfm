@@ -19,6 +19,9 @@ The *extern parameters* can then being computed using matches and *intra paramet
 = Attributes =
 {{{
 cv::Mat image;
+cv::Mat Rotation;
+cv::Mat Translation;
+cv::Mat ProjMatrix;//redundancy but speed improvement
 Camera device;//intra parameters
 PointsToTrack pointsInfo;
 vector<PointsMatched> matches;
