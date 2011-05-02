@@ -1,0 +1,28 @@
+#summary Class which represent a field of view
+
+This wiki page is not the API documentation. Indeed, Doxygen will do it for us. It's only for sharing ideas...
+
+= Role =
+
+Represent a field of view : a 3D position and direction of a [Camera]. So only extern parameters should be present in attribute and a reference to the Camera which take the picture.
+
+There is two major scenarios:
+ * a single camera take all FoV.
+ * a different camera for each FoV.
+
+The FoV owns a picture (2D, RGB, gray or B&W) which can be used to compute points ([PointsToTrack]). These points can be loaded from files (PCD) or computed using OpenCV technics.
+
+A FoV owns a vector of points matches ([PointsMatched]) which can be used to relate the current FoV to other FoV from the same scene.
+
+The *extern parameters* can then being computed using matches and *intra parameters* can being updated in Camera object.
+
+= Attributes =
+{{{
+cv::Mat image;
+Camera device;//intra parameters
+PointsToTrack pointsInfo;
+vector<PointsMatched> matches;
+vector<ExternPosEstim> externMats;//extern pos estimated (when no word coordinate are available)
+Points3DEstim points3D;//for each point in pointsInfo, estimation of the 3D position...
+}}}
+= Methods =
