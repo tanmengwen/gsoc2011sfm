@@ -1,0 +1,85 @@
+#summary Presentation of classes
+
+<h1>OpenCV & Structure from motion</h1>
+<h2>Ideas for implementation</h2>
+
+To be consistent with what has been stated above, I identified five processing blocks that can be separated:<br/>
+  <ul>
+     <li> !PointsToTrack: given an image, this block must be able to find points and/or features to track. OpenCV has already a lot of traitments, just have to create wrappers...</li>
+     <li> !PointsMatched: given points and/or features, this block must be able to find correspondances. If only images are known, use first <i>!PointsToTrack</i> to find points... OpenCV has a lot of algo too, so not a lot of work.</li>
+     <li> !ExternPosEstim: given points and/or intra parameters of cameras and/or matches and/or known 3D points, this block have to estimate the extern parameters of cameras (position, orientation) and intra parameters if needed. Same as before, a lot of methods exist in OpenCV or using toolbox of Mr Rabaud!</li>
+     <li> Points3DEstim: given 2D points and/or correspondances and/or intra parameters and/or extern parameters and/or known 3D points, this block have to estimate the 3D positions of each 2D points sets. Various methods exists (Middle point, iterative least square...), choice of methods has to be done.</li>
+     <li> Object: given 3D points from differents field of view and/without correspondances, find commun objects between views. A lot of algorithms exist in PCL, so just need wrappers...
+    </li>
+  </ul>
+<h2>Preliminary version of class digrams</h2>
+Focus on features and points detections:<br/><br/>
+<a href="http://charlie-soft.com/Structure%20from%20motion/VueGlobale1.png" target="_blank"><img src="http://charlie-soft.com/Structure from motion/VueGlobale1.png" style="width:100%;" alt="Diagramme de classe"/></a><br/><br/>
+Focus on 3D estimation:<br/><br/>
+<a href="http://charlie-soft.com/Structure from motion/VueGlobale1.png" target="_blank"><img src="http://charlie-soft.com/Structure from motion/VueGlobale2.png" style="width:100%;" alt="Diagramme de classe"/></a>
+
+
+<h2>Examples</h2><br/>
+Let's play with cameras :
+
+{{{
+//Camera creation :
+   Camera cam(WEBCAM, 0); //camera from webcam 0
+   Camera cam1(AVI_FLUX,"video1.avi"); //camera from video
+   Camera cam2(PICT_FLUX,"prefixe",".png",0,100); //camera from images (prefixe0.png -> prefixe100.png)
+}}}
+
+<br/>
+
+How will we change or compute things with our nice camera ?
+{{{
+   cam2.setInternalParameters(Mat::eye(3,3,CV_64F)); //set the internal parameters of cam2...
+//If we want to do some steps with particular methods, we can then doing it like that:
+//Example: use SURF points detections and BruteForceMatching
+   SURFDetect algoDetect(params); //See documentation for params details
+   cam.setDetectAlgo(algoDetect); //Now when points are needed for a FoV from <i>cam</i>, SURF method will be used.  
+   BFMatcher<HammingLUT> matchsAlgo;  
+   cam.setMatchAlgo(matchsAlgo);//Now if we need matching, brute force will be used.    
+   vector<vector<Point3f>> objectPoints= ??? ;//3D points of the calibration pattern in its coordinate system...
+   cam1.calibrateCamera(objectPoints)//Compute intra and extern parameters using images <i>cam1</i> have (using cv::calibrateCamera)...
+}}}
+<br/>
+
+What can we get from a camera ?
+{{{
+   cv::Mat K=cam3.getInternalParameters(CV_PROJECTIVE,CV_FM_RANSAC);//get the internal coefs of cam3... The parameter <i>CV_PROJECTIVE</i> says that if internal coefs are not computed then try to estimate the coefs using cv::cvFindFundamentalMat and cv::decomposeprojectionmatrix (We can find projection matrices using decomposition of F)
+//Of course, this estimation can be upgraded to perspective or metric recontruction if wanted using different parameters... Details not yet found.
+   cv::Mat img=cam3.getImage(0);//get the first image of cam3...
+   pcl::PointCloud<pcl::PointXYZ> world=cam3.getAllObjects();//get all objects found with cam3...
+}}}
+<br/>
+
+How can we create field of views ?
+{{{
+   FieldOfView p1=cam1.getFoV(3);//Get the 3rd field of view from cam1
+   FieldOfView pNew("pictX.jpg");//Create a new FoV. This will create a new empty camera
+   pNew.setCam(cam1);//set cam1 as the camera of  pNew (equal to p1.getCam())
+   FieldOfView p2=cam.getCurrentFoV();//Get the current FoV (for video or picture sequences, increment the frame)
+}}}
+<br/>
+
+OK, but if we have different devices (2 or more differents intra params), like <i>cam1, </i>cam2and <i>cam3</i>: how can we compute the differents parameters of the two cameras?<br/>
+Two options :<br/>
+If we have several images for the differents cameras, we can compute intra and extern parameters, object points for each camera and then merge them:
+{{{
+   cam1.compute3DObjects();
+   cam2.compute3DObjects();
+//Now merge the two objects:
+   Camera::merge({cam1,cam2});//the parameter will be a vector of Camera. Each camera inside the vector will be updated!
+}}}
+If we have only one image per camera, we can't compute intra parameters nor object points before merging... But we can always estimate  using <a href="http://opencv.willowgarage.com/documentation/camera_calibration_and_3d_reconstruction.html#findfundamentalmat">cv::cvFindFundamentalMat</a> and <a href="http://opencv.willowgarage.com/documentation/cpp/calib3d_camera_calibration_and_3d_reconstruction.html#cv-decomposeprojectionmatrix">cv::decomposeprojectionmatrix</a>. So the merging function will be able to find the correct method if intra or extern parameters are missing...<br/><br/>
+
+Ok, and what for seeing theses points/meshes/textured objects?
+{{{
+//If we want to show all objects of cam1 as viewed by the first FoV:
+   cam1.showObjects("myWindow",cam1.getFoV(0));
+//Or using particular position (position is a 3*3 matrix):
+cam1.showObjects("myWindow",position);
+//Or with an animation reproducing the camera motion:
+   PointDeVue::showObjet(world,cam);
+}}}
