@@ -10,6 +10,8 @@ Vincent Rabraud's toolbox : http://code.google.com/p/vincents-structure-from-mot
  * libmv is a structure from motion library, which plans to one day take raw video footage or photographs, and produce full camera calibration information and dense 3D models : http://code.google.com/p/libmv/
 
  * Bundler: Structure from Motion (SfM) for Unordered Image Collections. That's the library Microsoft used for !PhotoSynth: http://phototour.cs.washington.edu/bundler/
+    * Based on SBA library : http://www.ics.forth.gr/~lourakis/sba/
+      Should be used to compare with opencv sparse Levenberg-Marquardt minimisation...
 
  * uniclop: real time self calibration software: http://code.google.com/p/uniclop/
 
