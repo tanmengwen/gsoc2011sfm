@@ -1,6 +1,6 @@
  * [ProjectPresentation Presentation]
  * [Ideas Ideas and ToDo list]
- * [StartOfArt Other libraries about SfM]
+ * [StateOfArt Other libraries about SfM]
  * [UML Presentation of classes]
     * [FieldOfView]
     * [Camera]
