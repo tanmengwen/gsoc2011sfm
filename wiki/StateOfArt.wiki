@@ -18,6 +18,7 @@ Vincent Rabraud's toolbox : http://code.google.com/p/vincents-structure-from-mot
 
  * http://code.google.com/p/fvision2010/ seems unmaintained since Aug 2010, hard to tell what it does but it has some geometry stuff in there
  * patche based approaches: http://grail.cs.washington.edu/software/pmvs/
+ * augmented reality library, uses OpenCV: http://www.uco.es/investiga/grupos/ava/node/26
 
 == Testing ==
  * http://vision.middlebury.edu/mview/ set of images to test multiview algorithms
