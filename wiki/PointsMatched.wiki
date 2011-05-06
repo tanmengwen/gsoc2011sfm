@@ -19,6 +19,7 @@ float* matches;//Array of 2D points (idea from Bundler)
 = Ideas of implementation =
 
 _Ideas after Bundler and SBA code analysis_
+
 The points matches should be implemented using a structure like this :
 
 ||P,,1,,Cam,,1,,_X_||P,,1,,Cam,,1,,_Y_||P,,1,,Cam,,2,,_X_||P,,1,,Cam,,2,,_Y_||...||P,,1,,Cam,,N,,_X_||P,,1,,Cam,,N,,_Y_||
