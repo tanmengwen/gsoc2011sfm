@@ -20,11 +20,11 @@ float* matches;//Array of 2D points (idea from Bundler)
 
 _Ideas after Bundler and SBA code analysis_
 
-The points matches should be implemented using a structure like this :
+The points matches should be stored using a structure like this :
 
 ||P,,1,,Cam,,1,,_X_||P,,1,,Cam,,1,,_Y_||P,,1,,Cam,,2,,_X_||P,,1,,Cam,,2,,_Y_||...||P,,1,,Cam,,N,,_X_||P,,1,,Cam,,N,,_Y_||
 ||P,,2,,Cam,,1,,_X_||P,,2,,Cam,,1,,_Y_||P,,2,,Cam,,2,,_X_||P,,2,,Cam,,2,,_Y_||...||P,,2,,Cam,,N,,_X_||P,,2,,Cam,,N,,_Y_||
-||...||...||...||...||..||...||...||
+||...||...||...||...||...||...||...||
 ||P,,M,,Cam,,1,,_X_||P,,M,,Cam,,1,,_Y_||P,,M,,Cam,,2,,_X_||P,,M,,Cam,,2,,_Y_||...||P,,M,,Cam,,N,,_X_||P,,M,,Cam,,N,,_Y_||
 
 Of course, this implementation can be done using a 1D array.
@@ -40,3 +40,5 @@ Undefined points are set below to 0 and equal to the cardinal of the sequence of
 But with compacted values, the vector is:
 ||20||25||30||35||-4||30||20||20||40||70||20||120||130||-2||50||100||20||20||-2|| ||<b>19</b>||
 ||P1|| ||P2|| ||X||P1|| ||P2|| ||P3|| ||P4|| ||X||P2|| ||P3|| ||X|| ||<b>Values</b>||
+
+Of course, if we want to use centered coordinates, we have to change a little bit this representation... But the idea is still here: the sequence of undefined points should be compressed.
