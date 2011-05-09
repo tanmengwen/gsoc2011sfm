@@ -19,6 +19,7 @@ Vincent Rabraud's toolbox : http://code.google.com/p/vincents-structure-from-mot
  * http://code.google.com/p/fvision2010/ seems unmaintained since Aug 2010, hard to tell what it does but it has some geometry stuff in there
  * patch based approaches: http://grail.cs.washington.edu/software/pmvs/
  * PTAM: http://www.robots.ox.ac.uk/~gk/PTAM/
+ * any SLAM stuff: http://openslam.org/
  * augmented reality library, uses OpenCV: http://www.uco.es/investiga/grupos/ava/node/26
 
 == Testing ==
