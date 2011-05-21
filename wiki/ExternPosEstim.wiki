@@ -4,8 +4,19 @@ This wiki page is not the API documentation. Indeed, Doxygen will do it for us. 
 
 = Role =
 
-Using different [FieldOfView], this class will try to find the extern parameters of the different [Camera].
+Using different [FieldOfView], this class will try to find the extern parameters (or more) of the differents [Camera].
 
-See other projects to see how methods are implemented (which methods should be implemented here or in child class)
+TODO:
+See other projects to understand how methods are implemented (which methods should be implemented here or in child class)
 
-= Attributes =
+== How other projects do this ==
+
+SBA (again ;) uses the Levenberg-Marquardt minimization to find what is missing... They construct a vector of parameters (can be points, intra/extern camera parameters, distortion parameters...) and try to find the best set of model parameters.
+
+For that, they use two functions: One to compute error prediction, the other to compute the Jacobian matrix.
+The error prediction is computed like that:
+ Given a parameter vector *p* made up of the 3D coordinates of *n* points and the parameters of *m* cameras, compute the prediction of the measurements, i.e. the projections of 3D points in the m images. The measurements are returned in the order (hx,,11,,^T^, .. hx,,1m,,^T^, ..., hx,,n1,,^T^, .. hx,,nm,,^T^)^T^, where hx,,ij,, is the predicted projection of the i^th^ point on the j^th^ camera.
+The Jacobian like that:
+ Given a parameter vector *p* made up of the 3D coordinates of *n* points and the parameters of *m* cameras, compute the jacobian of the predicted measurements, i.e. the jacobian of the projections of 3D points in the m images. The jacobian is returned in the order (A,,11,,, ..., A,,1m,,, ..., A,,n1,,, ..., A,,nm,,, B,,11,,, ..., B,,1m,,, ..., B,,n1,,, ..., B,,nm,,), where A,,ij,,=dx,,ij,,/db,,j,, and B,,ij,,=dx,,ij,,/db,,i,, (see HZ).
+
+Unfortunately, the !CvLevMarq class from OpenCV doesn't seem to be able to handle such a process. We will probably have to rewrite this or create a wrapper... *What is the best to do ?*
