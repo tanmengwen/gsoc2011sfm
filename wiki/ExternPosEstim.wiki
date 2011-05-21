@@ -19,4 +19,7 @@ The error prediction is computed like that:
 The Jacobian like that:
  Given a parameter vector *p* made up of the 3D coordinates of *n* points and the parameters of *m* cameras, compute the jacobian of the predicted measurements, i.e. the jacobian of the projections of 3D points in the m images. The jacobian is returned in the order (A,,11,,, ..., A,,1m,,, ..., A,,n1,,, ..., A,,nm,,, B,,11,,, ..., B,,1m,,, ..., B,,n1,,, ..., B,,nm,,), where A,,ij,,=dx,,ij,,/db,,j,, and B,,ij,,=dx,,ij,,/db,,i,, (see HZ).
 
-Unfortunately, the !CvLevMarq class from OpenCV doesn't seem to be able to handle such a process. We will probably have to rewrite this or create a wrapper... *What is the best to do ?*
+== What will we have to do ==
+Unfortunately, the !CvLevMarq class from OpenCV doesn't seem to be able to handle such a process. We will probably have to rewrite this or create a wrapper (seems a better idea)!
+
+Fortunately, OpenCV have a lot of useful functions we will use, like [http://opencv.willowgarage.com/documentation/camera_calibration_and_3d_reconstruction.html#undistortpoints cvUndistortPoints], [http://opencv.willowgarage.com/documentation/camera_calibration_and_3d_reconstruction.html#projectpoints2 cvProjectPoints2] (can be used to compute part of the Jacobian matrix!)...
