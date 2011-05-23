@@ -52,5 +52,5 @@ So this class (Camera) should be devoted to 2D distortions estimation and rectif
 
 I propose to have only following members:
   * `intra_params_` and `inv_intra_params_` : store intra parameters(3*3 matrix)
-  * `radial_dist_` : vector of rad dist coefs (only 3 params, like OpenCV).
+  * `radial_dist_` : vector of rad dist coefs (only 6 params, like OpenCV).
   * `tangential_dist_` : vector of tang dist coefs (only 2 params, like OpenCV).
