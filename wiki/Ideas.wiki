@@ -5,4 +5,22 @@
  * Load intra parameters of camera using <a href="http://en.wikipedia.org/wiki/Exchangeable_image_file_format">EXIF informations</a>
  * Simple application: View morphing
 
-= !ToDo List =
+= Exchange with other projects =
+==[http://groups.google.com/group/libmv-devel/browse_thread/thread/6a4c895f88df22ef "Collaborating on an SfM API" thread].==
+
+A proposition of core functionalities (unordered):
+ # 5 pt relative pose (Already in OpenCV)
+ # 8 pt fundamental matrix (Already in OpenCV)
+ # homography (Already in OpenCV)
+ # if we are getting fancy then relative pose with focal length and radial distortion
+ # euclidean resectioning minimal and non-minimal 
+ # triangulation, two view and n -view. (part of it in OpenCV)
+ # ransac and its various variants. (use the implementation of libmv sees a good idea)
+ # radial distortion and undistortion (sba routine)
+ # bundle adjustment (sba too)
+
+Segmentation of problems:
+ * Level 0: Correspondence finding routines (Already in OpenCV)
+ * Level 1: Core solvers such as fundamental 7/8 point, 5-point euclidean relative pose, 5-point euclidean resection, etc. (Already in OpenCV, only need restructuring)
+ * Level 2: Routines that can robustly solve Level 1 problems with noisy data. (RANDSAC algo from libmv)
+ * Level 3: Any algorithm that involves multiple calls to level 2 routines. This includes general reconstruction from e.g. image collections or video sequences. These require e.g. doing a 2-view solve, then resectioning additional views, then triangulating more points, etc. 
