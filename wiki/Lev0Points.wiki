@@ -1,0 +1,25 @@
+#summary Level0 problems in SfM
+
+= Introduction =
+
+Correspondence finding routines (SIFT/SURF/DAISY, KLT/NCC).
+Here we will discuss about what we want for this core functionalities.
+
+I think this can be done correctly using OpenCV as the number of algorithm are huge, both for features detection and matching. The number of dependences are not as much because we only need *opencv_core* and *opencv_features2d* shared libraries (if we want file loading, we should add *opencv_highgui*)
+
+So this Level0 problem is done for now using only OpenCV functions. Please leave comments if something needs to be more generic or rebuild. I know eve, b! But OpenCV is a library we can't do without!
+
+= Proposition =
+
+Please add / remove / update ideas!
+
+== File processor ==
+As input can be of different types (movie, webcam, folder of pictures...), we should have a common interface to load files. With this, we don't take time to think about how can we get frames...
+For now, a first implementation can be found in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/MotionProcessor.h MotionProcessor.h].
+== Feature detection ==
+As OpenCV has a lot of algorithm, I propose to have only a wrapper of the OpenCV algorithms.
+The feature detection and extraction are two separate process, we should keep this separation (some feature detection algorithm can't extract features for example).
+For now, a first implementation can be found in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsToTrack.h PointsToTrack.h] (a more useful implementation inherit from this class: [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsToTrackWithImage.h PointsToTrackWithImage.h])
+== Feature matching ==
+Same as before, OpenCV as lot of good algorithm (FLANN for example) so a first shot can just be a wrapper of the [http://opencv.willowgarage.com/documentation/cpp/common_interfaces_for_feature_detection_and_descriptor_extraction.html#descriptormatcher DescriptorMatcher] class.
+For now, a first implementation can be found in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsMatcher.h PointsMatcher.h]
