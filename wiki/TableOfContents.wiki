@@ -9,3 +9,8 @@
     * [ExternPosEstim]
     * [Points3DEstim]
     * [Object]
+ * [ProblemSegmentation]
+    * [Lev0Points Level0: find and match points]
+    * [Lev1Core Level1: Core functions]
+    * [Lev2Optimiz Level2: Minimization problems using core functions]
+    * [Lev3Algo Level3: Algorithms using L2 to handle complete sequences]
