@@ -1,0 +1,7 @@
+#summary Radial and tangential distortion estimation
+
+= Introduction =
+
+A good description of such distortion can be found on [http://en.wikipedia.org/wiki/Distortion_(optics)#Radial_distortion wikipedia]. A good SfM library should include methods to estimate and remove such perturbation.
+
+= How it's done =
