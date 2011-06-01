@@ -10,9 +10,9 @@ As the goal of a SfM library is to help users to create new ways to estimate var
 
 == Details of implementations: ==
 === Opencv ===
-Most of algorithms have already the option to use RANSAC or LM to use more points to estimate parameters. The implementation of such algorithm is so minimized. But if needed, the class CvModelEstimator2 could be useful. But the implementation is less generic than libmv do.
+Most of algorithms have already the option to use RANSAC or LM to use more points to estimate parameters. The implementation of such algorithm is so minimized. But if needed, the class !CvModelEstimator2 could be useful. But the implementation is less generic than libmv do.
 === libmv ===
 If find a good implementation of Levenberg-Marquardt algorithm where each part can be easily changed (Function, Jacobian and Solver). The algorithm is based on Eigen library, see if this can be considered as a problem or not...
 Can't find RANSAC implementation...
 === SBA ===
-As libmv, they have build a Levenberg-Marquardt implementation, but in the old-C fashion... But this implementation is really optimized, maybe with little refactoring we can have something good. As far as I know the goal of this implementation is to only do bundle adjustment so be careful to test how other problems can be integrated!
+As libmv, they have build a Levenberg-Marquardt implementation in the old-C fashion... But this implementation is really optimized, maybe with little refactoring we can have something good. As far as I know the goal of this implementation is to only do bundle adjustment so be careful to test how other problems can be integrated!
