@@ -14,7 +14,7 @@ So this Level0 problem is done for now using only OpenCV functions. Please leave
 Please add / remove / update ideas!
 
 == File processor ==
-_?Probably not in Core level 0 functionality?_
+_?Probably not in Core level 0 functionality (much a level3)?_
 
 As input can be of different types (movie, webcam, folder of pictures...), we should have a common interface to load files. With this, we don't take time to think about how can we get frames...
 For now, a first implementation can be found in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/MotionProcessor.h MotionProcessor.h].
