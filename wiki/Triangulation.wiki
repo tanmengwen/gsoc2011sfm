@@ -6,5 +6,6 @@ Thank's to [http://en.wikipedia.org/wiki/Triangulation wikipedia], a triangulati
 ==Opencv==
 
 Don’t know where triangulations stuff are hidden...
+We can use `CalibrateCamera2` to find the camera intrinsic and extrinsic parameters from several views of a calibration pattern. This function can estimate the distortions parameters too.
 ==Libmv==
 They use the classic linear triangulation method (see `triangulation.cc`). They propose an other implementation of this problem using triangulation by plan with minimization of the re-projection error in the first image only.
