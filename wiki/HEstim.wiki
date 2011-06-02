@@ -3,7 +3,8 @@
 = Introduction =
 
 Thank's to wikipedia, a homography is a concept in the mathematical science of geometry. A homography is an invertible transformation from the real projective plane to the projective plane that maps straight lines to straight lines. Synonyms are collineation, projective transformation, and projectivity, though "collineation" is also used more generally.
-
+== Implementation idea: ==
+Like the [5ptRelative 5 points method], this method should inherit from a class like *"!TwoViewsEstimator"*. This could help Level2 algorithm to handle such algorithm.
 = How it's done =
 
 == Opencv ==
