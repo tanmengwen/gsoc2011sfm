@@ -28,3 +28,27 @@ For now, a first implementation can be found in [http://code.google.com/p/gsoc20
 == Camera structures ==
 Instead of having a camera class which have both intra parameters *and* 3D position and orientation, I think we should separate this in to classes: one for camera device modelisation and one for camera position and orientation. Indeed, this add an abstraction very useful: projection of points doesn't need any assumption on camera type (with/without distortion, fisheyes/pinhole...). For implementation of this idea, see [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/Camera.h Camera.h], [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/CameraPinhole.h CameraPinhole.h], [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/CameraPinholeDistor.h CameraPinholeDistor.h] and [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointOfView.h PointOfView.h].
 I hope this implementation will start a lot of discussions and I'm ready to debate :)
+{{{
+//As we don't know what type of camera we use (with/without disportion, fisheyes...)
+//we can't use classic projection matrix P = K . [R|t]
+//Instead, we first compute points transformation into camera's system and then compute
+//pixel coordinate using camera device function.
+
+    
+vector<Vec2d> pointsOut;
+vector<Vec3d>::iterator point=points.begin();
+while(point!=points.end())
+{
+  Vec4d pointNorm << (*point) , 1.0;
+
+  //transform points into camera's coordinates:
+  Vec3d mat2DNorm = ( projection_matrix_ * pointNorm );
+
+  pointsOut.push_back( Vec2d(point2DNorm[0]/point2DNorm[2], point2DNorm[1]/point2DNorm[2]) );
+
+  point++;
+}
+
+//transform points into pixel coordinates using camera intra parameters:
+return device_->normImageToPixelCoordinates(pointsOut);
+}}}
