@@ -4,6 +4,9 @@
 
 In computer vision, the fundamental matrix is a 3`*`3 matrix which relates corresponding points in stereo images. In epipolar geometry, with homogeneous image coordinates, x and x′, of corresponding points in a stereo image pair, Fx describes a line (an epipolar line) on which the corresponding point x′ on the other image must lie.
 
+== Implementation idea: ==
+Like the [5ptRelative 5 points method], this method should inherit from a class like *"!TwoViewsEstimator"*. This could help Level2 algorithm to handle such algorithm.
+
 = How it's done =
 == Opencv ==
 
