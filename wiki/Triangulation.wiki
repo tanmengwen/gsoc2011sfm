@@ -8,7 +8,8 @@ As this method needs 2D points correspondences and camera parameters, it should 
 = How it's done =
 ==Opencv==
 
-Don’t know where triangulations stuff are hidden...
+Neil Cavan explained how Triangulation is done with OpenCV: `cvCorrectMatches()` can tweak the 2D points to minimize reprojection error (via fundamental matrix) and the 3D positions can then be estimated using `cvTriangulatePoints()`.
+
 We can use `CalibrateCamera2` to find the camera intrinsic and extrinsic parameters from several views of a calibration pattern. This function can estimate the distortions parameters too.
 ==Libmv==
 They use the classic linear triangulation method (see `triangulation.cc`). They propose an other implementation of this problem using triangulation by plan with minimization of the re-projection error in the first image only.
