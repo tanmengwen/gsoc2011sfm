@@ -6,7 +6,7 @@ Core solvers such as fundamental 7/8 point, 5-point euclidean relative pose, 5-p
 
 = Details =
 
-As proposed by Pierre Moulon, I will create a wiki page for each method of the core problems. This will improve exchange between users and developers.
+As proposed by [http://groups.google.com/group/libmv-devel/msg/6cf46a30d5047e6a Pierre Moulon], I will create a wiki page for each method of the core problems. This will improve exchange between users and developers.
 For now, we have:
  * [5ptRelative 5 pt relative pose]
  * [8ptFundam 8 pt fundamental matrix]
