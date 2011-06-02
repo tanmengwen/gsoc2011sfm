@@ -24,7 +24,9 @@ The feature detection and extraction are two separate process, we should keep th
 For now, a first implementation can be found in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsToTrack.h PointsToTrack.h] (a more useful implementation inherit from this class: [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsToTrackWithImage.h PointsToTrackWithImage.h])
 == Feature matching ==
 Same as before, OpenCV as lot of good algorithm (FLANN for example) so a first shot can just be a wrapper of the [http://opencv.willowgarage.com/documentation/cpp/common_interfaces_for_feature_detection_and_descriptor_extraction.html#descriptormatcher DescriptorMatcher] class.
-For now, a first implementation can be found in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsMatcher.h PointsMatcher.h]
+For now, a first implementation can be found in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsMatcher.h PointsMatcher.h].
+
+This implementation is really close to nRobustViewMatching class of libmv library!
 == Camera structures ==
 Instead of having a camera class which have both intra parameters *and* 3D position and orientation, I think we should separate this in to classes: one for camera device modelisation and one for camera position and orientation. Indeed, this add an abstraction very useful: projection of points doesn't need any assumption on camera type (with/without distortion, fisheyes/pinhole...). For implementation of this idea, see [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/Camera.h Camera.h], [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/CameraPinhole.h CameraPinhole.h], [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/CameraPinholeDistor.h CameraPinholeDistor.h] and [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointOfView.h PointOfView.h].
 I hope this implementation will start a lot of discussions and I'm ready to debate :)
