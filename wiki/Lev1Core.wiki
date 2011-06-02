@@ -19,6 +19,6 @@ For now, we have:
 
 This is a problem as every project has its own structures so core functions have to deal with something really heterogeneous!
 
-Keir Mierle proposed to use either raw double array or Eigen matrix. While Eigen matrix give us a lot of useful methods and produce a cleaner code, this will add an additional dependencies. I think double array is better suited and generic.
+Keir Mierle proposed to use either raw double array or Eigen matrix. While Eigen matrix give us a lot of useful methods and produce a cleaner code, this will add an additional dependency. I think double array is better suited and generic but will need refactoring functions.
 
 Please add / remove / update informations!
