@@ -4,4 +4,10 @@
 
 A good description of such distortion can be found on [http://en.wikipedia.org/wiki/Distortion_(optics)#Radial_distortion wikipedia]. A good SfM library should include methods to estimate and remove such perturbation.
 
+== Ideas of implementation ==
+As [http://code.google.com/p/gsoc2011sfm/wiki/Lev0Points#Camera_structures proposed before], the camera class is devoted to device transformation. So the inherited class [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/CameraPinholeDistor.h CameraPinholeDistor] implement the transformation (and back-transformation) of 2D points with radial and tangential distortion.
+
 = How it's done =
+== OpenCV ==
+The distortion parameters are stored into a vector of various size:
+(k,,1,,, k,,2,,, p,,1,,, p,,2,,`[`, k,,3,,`[`, k,,4,,, k,,5,,, k,,6,,`]]`) where k,,1,, -- k,,6,, are the first six radial distortion parameters and p,,1,,, p,,2,, are the tangential distortion parameters.
