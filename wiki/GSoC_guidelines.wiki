@@ -6,7 +6,7 @@ Wiki creation in order to exchange ideas with community
 First ideas of Camera structures
 
 = Week 2 =
-Camera and projection structure are improved.
+Camera and projection structures are improved.
 First contact with libmv team by Vincent. They have build an highly optimized library for SfM. See how we can work together.
 
 = Week 3 =
