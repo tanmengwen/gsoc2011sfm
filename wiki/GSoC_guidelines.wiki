@@ -1,0 +1,13 @@
+#summary Keep track of my progress
+
+= Week 1 =
+
+Wiki creation in order to exchange ideas with community
+First ideas of Camera structures
+
+= Week 2 =
+Camera and projection structure are improved.
+First contact with libmv team by Vincent. They have build an highly optimized library for SfM. See how we can work together.
+
+= Week 3 =
+Start the collaboration with libmv. Code for libmv_core will be hosted on [https://github.com/Petititi/libmv GitHub]. First idea is to have only a small number of functions
