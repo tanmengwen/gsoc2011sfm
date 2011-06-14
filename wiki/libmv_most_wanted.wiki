@@ -1,0 +1,25 @@
+#summary Libmv study
+
+= What I find difficult when starting with Libmv =
+
+ * Documentation is hard to find. Simple examples would be very helpful!
+ * The number of projects tends to confuse the newbie. I don't know if it's Visual studio related, but after creating project files using CMake, I have a lot of projects (approx. 70!).
+ * Kernel version vs standard functions vs functions interface for kernel... Which one are the best?
+ * Finding related functions is not easy (no commune namespace/class)
+ * Functions don't take cameras as input but low levels information (advantages/disadvantages)
+
+{{{
+void RelativeCameraMotion(const Camera &c1,
+                          const Camera &c2,
+                          Mat3 *R, Vec3 *t);
+}}}
+instead of
+{{{
+void RelativeCameraMotion(const Mat3 &R1, const Vec3 &t1,
+                          const Mat3 &R2, const Vec3 &t2,
+                          Mat3 *R, Vec3 *t);
+}}}
+ * Could not find easy ways to use Levenberg-Marquardt method for fundamental estimation ([http://sist.sysu.edu.cn/~chenpei/papers/IETCV-10.pdf for example this method]). Maybe add some explanation about needed parameters (or bigger examples than in tests cases)
+ * Bundle wrapper make a strong assumption: all the points are assumed to be observed in all images. Is this a limitation of SSBA? Maybe use Lourakis' sba?
+ * SixPointReconstruction needs an other robust processor (two_view_kernel can't work ;). Only two view robust estimation seems to be implemented (or can't find robust version of SixPointReconstruction). Is this method really useful?
+ * Can't find a robust N-Views triangulation function.
