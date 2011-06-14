@@ -10,4 +10,8 @@ Camera and projection structures are improved.
 First contact with libmv team by Vincent. They have build an highly optimized library for SfM. See how we can work together.
 
 = Week 3 =
-Start the collaboration with libmv. Code for libmv_core will be hosted on [https://github.com/Petititi/libmv GitHub]. First idea is to have only a small number of functions
+Start the collaboration with libmv. Code for libmv_core will be hosted on [https://github.com/Petititi/libmv GitHub]. First idea is to have only a small number of functions.
+Template vs inheritances study show that inheritance is 1.4 slower than template... A bottleneck was identified as being responsible of 80% of computation time! See if this is the same on Linux and different error metric...
+= Week 4 =
+Keir don't have time to guide me on libmv_core for now, he suggest me to write an entire SfM pipeline to exchange about what we need in the core part of libmv.
+I started the implementation of Noah Snavely: [http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.163.3666 Modeling the World from Internet Photo Collections].
