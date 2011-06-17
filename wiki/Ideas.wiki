@@ -1,6 +1,13 @@
 #summary Ideas and ToDo list
 
-= Ideas =
+= This API will be designed to: =
+ * Load a vector of pictures and find a list of points easy to track
+ * Create _tracks_, where a track is a connected set of matching keypoints across multiple images.
+ * Use multiples _tracks_ to estimate the intra, distortion and extern cameras parameters
+ * Refine the cameras parameters (bundle adjustment)
+ * Visualize the 3D points across multiple camera
+
+= What would be great to have in this API? =
 
  * Load intra parameters of camera using <a href="http://en.wikipedia.org/wiki/Exchangeable_image_file_format">EXIF informations</a>
  * Simple application: View morphing
