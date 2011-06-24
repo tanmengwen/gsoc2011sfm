@@ -22,4 +22,4 @@ void RelativeCameraMotion(const Mat3 &R1, const Vec3 &t1,
  * Could not find easy ways to use Levenberg-Marquardt method for fundamental estimation ([http://sist.sysu.edu.cn/~chenpei/papers/IETCV-10.pdf for example this method]). Maybe add some explanation about needed parameters (or bigger examples than in tests cases)
  * Bundle wrapper make a strong assumption: all the points are assumed to be observed in all images. Is this a limitation of SSBA? Maybe use Lourakis' sba?
  * SixPointReconstruction needs an other robust processor (two_view_kernel can't work ;). Only two view robust estimation seems to be implemented (or can't find robust version of SixPointReconstruction). Is this method really useful?
- * Can't find a robust N-Views triangulation function.
+ * *Can't find a robust N-Views triangulation function.*
