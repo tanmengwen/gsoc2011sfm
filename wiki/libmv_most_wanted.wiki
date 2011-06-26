@@ -23,3 +23,4 @@ void RelativeCameraMotion(const Mat3 &R1, const Vec3 &t1,
  * Bundle wrapper make a strong assumption: all the points are assumed to be observed in all images. Is this a limitation of SSBA? Maybe use Lourakis' sba?
  * SixPointReconstruction needs an other robust processor (two_view_kernel can't work ;). Only two view robust estimation seems to be implemented (or can't find robust version of SixPointReconstruction). Is this method really useful?
  * *Can't find a robust N-Views triangulation function.*
+ * libmv::vector class [http://eigen.tuxfamily.org/dox/TopicStlContainers.html#vector_spec can be done like this]
