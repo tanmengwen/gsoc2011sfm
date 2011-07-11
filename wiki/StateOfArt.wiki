@@ -25,3 +25,4 @@ Vincent Rabraud's toolbox : http://code.google.com/p/vincents-structure-from-mot
 
 == Testing ==
  * http://vision.middlebury.edu/mview/ set of images to test multiview algorithms
+ * http://www.robots.ox.ac.uk/~vgg/data/data-mview.html multi-view datasets
