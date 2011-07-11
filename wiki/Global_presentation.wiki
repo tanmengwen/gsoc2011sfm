@@ -12,11 +12,19 @@ In this page, I will present how files and objects are organized in this API. He
 Structure from motion starts from a motion and produces a structure as output (yes, you've learn a lot with this definition...). So the first step in this process is to give pictures to feed the algorithms.
 
 In this API, the type of input is not important: we get the current frame from the sequence in the same way when using a folder, a video file... All details can be found in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/MotionProcessor.h MotionProcessor.h], and an example in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/tutorials/test_save_load.cpp test_save_load.cpp].
+==== Related files: ====
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/MotionProcessor.h MotionProcessor.h]
 
 == Sequence analyse ==
 Once input data are correctly configured, we have to extract information from them.
 
 Features detection, extraction and match are done using Opencv functions. We provide various way to do this but the easiest way is probably to use [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/SequenceAnalyzer.h SequenceAnalyzer.h] as the entire process is automatized. An example can be found in [http://code.google.com/p/gsoc2011sfm/source/browse/trunk/tutorials/testMotionEstimator.cpp testMotionEstimator.cpp].
+==== Related files: ====
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/SequenceAnalyzer.h SequenceAnalyzer.h]
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsMatcher.h PointsMatcher.h]
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsToTrack.h PointsToTrack.h]
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointsToTrackWithImage.h PointsToTrackWithImage.h]
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/TracksOfPoints.h TracksOfPoints.h]
 
 == Cameras ==
 We choose to separate the configuration of a camera (intra parameters and type (pinhole, fisheye, with distortion...) and their position (rotation and translation) to focus on problems of each part.
@@ -26,11 +34,19 @@ In practice, when we want to use a camera, we have to set the type of device we 
   Ptr<Camera> my_device = Ptr<Camera>( new CameraPinhole(intra_params) );
   PointOfView p( my_device, rotation, translation) );
 }}}
+==== Related files: ====
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/Camera.h Camera.h]
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/CameraPinhole.h CameraPinhole.h]
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/CameraPinholeDistor.h CameraPinholeDistor.h]
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/PointOfView.h PointOfView.h]
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/ProjectiveEstimator.h ProjectiveEstimator.h]
 
 == 3D object estimation ==
 When we have different points of view of the same object, we can try to estimate the object's 3D shape.
 
 For example of such process, you can see test_reconstruction.cpp which use the dataset from http://vision.middlebury.edu/mview/data/ to triangulate points of the temple.
+==== Related files: ====
+[http://code.google.com/p/gsoc2011sfm/source/browse/trunk/src/StructureEstimator.h StructureEstimator.h]
 
 = Bundle adjustment =
 Of course the various SfM technics need refinements which is done by bundle adjustment.
