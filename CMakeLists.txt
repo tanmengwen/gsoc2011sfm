@@ -71,6 +71,8 @@ else()
 	message(STATUS " ** Warning: Boost library Could NOT be found, you will not be able to process automatically a folder full of images /!\\")
 endif()
 
+set(SFM_LINKER_LIBS ${OpenCV_LIBS} ${Boost_LIBRARIES})
+
 find_path(EIGEN_DIR "Eigen/Core"
 	PATHS "/usr/local/include/" "/opt/include/" "/usr/include/"
 	PATH_SUFFIXES "eigen2" "eigen3" "eigen"
@@ -81,7 +83,16 @@ find_path(EIGEN_DIR "Eigen/Core"
 include( CheckIncludeFiles )
 check_include_files( "pthread.h" HAVE_PTHREAD_H )
 
-set(SFM_LINKER_LIBS ${OpenCV_LIBS} ${Boost_LIBRARIES})
+find_package(Qt4)
+if (QT4_FOUND)
+	find_package (OpenGL QUIET)
+	
+	if (QT_QTOPENGL_FOUND AND OPENGL_FOUND)
+		set(HAVE_QT_OPENGL 1)
+		set(SFM_LINKER_LIBS ${SFM_LINKER_LIBS} ${OPENGL_LIBRARIES})
+	endif()
+endif()
+
 
 if(${HAVE_PTHREAD_H})
 	find_package( Threads )
