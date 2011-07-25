@@ -26,6 +26,7 @@ After some research on the topic, it appears that the API should at least allow 
 Also you will use [http://www.charlie-soft.com/Structure%20from%20motion/Doc/ the documentation of each classes] generated thanks to [http://www.stack.nl/~dimitri/doxygen/index.html doxygen].
 
 I made a little video to show current reconstruction progress. This is not really a structure from motion as the cameras are fully parameterized, but it's a start:
+
 <wiki:video url="http://www.youtube.com/watch?v=KUkq6EinXCE"/>
 
 The dependencies of this API are for now:
