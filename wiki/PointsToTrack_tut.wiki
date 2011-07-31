@@ -164,6 +164,10 @@ fastDetect=Ptr<FeatureDetector>( new FastFeatureDetector( ) );
 {{{
 fastDetect = new DynamicAdaptedFeatureDetector(new FastAdjuster(), 20, 30, 100);
 }}}
+  # Or you can try a pyramid adapter, which in theory should enable a fixed-scale detector to return features at multiple scales:
+{{{
+fastDetect = new PyramidAdaptedFeatureDetector(new FastFeatureDetector(), 5);
+}}}
   # Try changing the descriptor type. Change the line *`SurfDetect=Ptr<DescriptorExtractor>( new SurfDescriptorExtractor( ) );`* to:
 {{{
 SurfDetect=Ptr<DescriptorExtractor>( new SiftDescriptorExtractor( ) );
