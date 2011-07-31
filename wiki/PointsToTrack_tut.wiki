@@ -1,0 +1,17 @@
+#summary Tutorial for the PointsToTrack class.
+
+= Introduction =
+
+This tutorial is designed to introduce the user to the PointsToTrack class. The purpose of this class is to allow the user to detect and track keypoints from images. These keypoints are then used as the basis for solving the geometry between the images, and ultimately performing Structure-from-Motion.
+
+This tutorial will cover the following concepts:
+
+# Detection of keypoints in an image.
+# Tracking of keypoints between images.
+# Generating descriptors for sets of keypoints.
+
+= Details =
+
+== Detection of keypoints in an image ==
+
+...tutorial will go here...
