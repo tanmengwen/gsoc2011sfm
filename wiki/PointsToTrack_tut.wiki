@@ -2,7 +2,7 @@
 
 = Introduction =
 
-This tutorial is designed to introduce the user to the PointsToTrack class. The purpose of this class is to allow the user to detect keypoints from images which can then optionally be tracked. Extracted features are later used as the basis for solving the geometry between the images, and ultimately performing Structure-from-Motion.
+This tutorial is designed to introduce the user to the PointsToTrack class. The purpose of this class is to allow the user to detect keypoints from images for the purpose of tracking them as the viewpoint is varied. Extracted features are later used as the basis for solving the geometry between the image viewpoints, and ultimately performing Structure-from-Motion.
 
 This tutorial will cover the following concepts:
 
@@ -16,7 +16,7 @@ This tutorial will cover the following concepts:
 
 OpenCV provides several popular feature detectors which can be useful for structure from motion. Each of these detectors has changeable parameters which affect the quantity and nature of returned keypoints. Several of the detectors can also be interfaced through an AdjusterAdapter which allows the parameters to be tuned in order to return a particular number of features for a given image. Default parameters should give decent results in most cases, but are unlikely to be effective for unusual environments, or different imaging modalities.
 
-The PointsToTrack class contains a protected member called *std::vector<cv::KeyPoint> keypoints_* where the keypoints from a chosen detector can be stored.  Depending on the nature of the detector used, each keypoint in the vector may store additional information beyond simply the X and Y co-ordinates in the image. Such information may include scale, response (strength), angle or octave.
+The PointsToTrack class contains a protected member called *std::vector<cv::KeyPoint> keypoints_* where the keypoints from a chosen detector can be stored. Depending on the nature of the detector used, each keypoint in the vector may store additional information beyond simply its X and Y co-ordinates in the image. Such information may include scale, response (strength), angle or octave.
 
 The class also contains a member variable called *descriptors* which contains a single descriptor (one for each row) corresponding to each keypoint. 
 
@@ -148,41 +148,23 @@ Mat fundam = cv::findFundamentalMat( srcP, destP, status, cv::FM_RANSAC );
 }}}
 
 == Example 2: Changing the detection/description/matching scheme  ==
-(There are currently problems trying some other detectors, descriptors and matchers, but once this is possible there will be instructions here on how to do this.)
+(There are currently problems trying some combinations of detectors, descriptors and matchers.)
 
-  # Try changing the lower response threshold of the SURF feature detector (default is 400.0) to allow more or fewer initial features. Change:
-{{{
-fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );
-}}}
-to
+  # Try changing the lower response threshold of the SURF feature detector (default is 400.0) to allow more or fewer initial features. Change the line *`fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );`* to:
 {{{
 fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( 100.00 ) );
+// or
+// fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( 3000.00 ) );
 }}}
-or
-{{{
-fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( 3000.00 ) );
-}}}
-  # Try using a different detector such as the FAST detector. Change
-{{{
-fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );
-}}}
-to
+  # Try using a different detector such as the FAST detector. Change the same line to:
 {{{
 fastDetect=Ptr<FeatureDetector>( new FastFeatureDetector( ) );
 }}}
-  # Try using a dynamically adapted feature detector instead, where you can control the number of features you want returned. Replace:
-{{{
-fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );
-}}}
-with
+  # Try using a dynamically adapted feature detector instead, where you can control the number of features you want returned. Replace the same line with:
 {{{
 fastDetect = new DynamicAdaptedFeatureDetector(new FastAdjuster(), 20, 30, 100);
 }}}
-  # Try changing the descriptor type. Change:
-{{{
-SurfDetect=Ptr<DescriptorExtractor>( new SurfDescriptorExtractor( ) );
-}}}
-to
+  # Try changing the descriptor type. Change the line *`SurfDetect=Ptr<DescriptorExtractor>( new SurfDescriptorExtractor( ) );`* to:
 {{{
 SurfDetect=Ptr<DescriptorExtractor>( new SiftDescriptorExtractor( ) );
 }}}
