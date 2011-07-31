@@ -1,4 +1,5 @@
 #summary Presentation of this API's goals.
+#labels Featured
 #sidebar TableOfContents
 
 <img alt="Structure from motion" src="http://charlie-soft.com/Structure%20from%20motion/opencvLogoFinal.png" align="left" width="100px"/>
