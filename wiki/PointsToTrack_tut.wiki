@@ -6,9 +6,9 @@ This tutorial is designed to introduce the user to the PointsToTrack class. The 
 
 This tutorial will cover the following concepts:
 
-  # Selecting and applying a feature detector to a pair of images.
-  # Selecting and applying a descriptor extractor to a pair of images.
-  #
+  # Selecting and applying a feature detector on a pair of images.
+  # Selecting and applying a descriptor extractor on a pair of images.
+  # Performing feature matching between images.
 
 = Details =
 
@@ -149,3 +149,41 @@ Mat fundam = cv::findFundamentalMat( srcP, destP, status, cv::FM_RANSAC );
 
 == Example 2: Changing the detection/description/matching scheme  ==
 (There are currently problems trying some other detectors, descriptors and matchers, but once this is possible there will be instructions here on how to do this.)
+
+  # Try changing the lower response threshold of the SURF feature detector (default is 400.0) to allow more or fewer initial features. Change:
+{{{
+fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );
+}}}
+to
+{{{
+fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( 100.00 ) );
+}}}
+or
+{{{
+fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( 3000.00 ) );
+}}}
+  # Try using a different detector such as the FAST detector. Change
+{{{
+fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );
+}}}
+to
+{{{
+fastDetect=Ptr<FeatureDetector>( new FastFeatureDetector( ) );
+}}}
+  # Try using a dynamically adapted feature detector instead, where you can control the number of features you want returned. Replace:
+{{{
+fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );
+}}}
+with
+{{{
+fastDetect = new DynamicAdaptedFeatureDetector(new FastAdjuster(), 20, 30, 100);
+}}}
+  # Try changing the descriptor type. Change:
+{{{
+SurfDetect=Ptr<DescriptorExtractor>( new SurfDescriptorExtractor( ) );
+}}}
+to
+{{{
+SurfDetect=Ptr<DescriptorExtractor>( new SiftDescriptorExtractor( ) );
+}}}
+  # I would include a tip on how to change the matching scheme, but at the moment FLANN is the only one that is working.
