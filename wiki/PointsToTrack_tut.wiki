@@ -172,4 +172,7 @@ fastDetect = new PyramidAdaptedFeatureDetector(new FastFeatureDetector(), 5);
 {{{
 SurfDetect=Ptr<DescriptorExtractor>( new SiftDescriptorExtractor( ) );
 }}}
-  # I would include a tip on how to change the matching scheme, but at the moment FLANN is the only one that is working.
+  # You can change also the matching scheme, from FLANN to brute force (for example).
+{{{
+matcher=Ptr<DescriptorMatcher>(new BruteForceMatcher<Hamming>());
+}}}
