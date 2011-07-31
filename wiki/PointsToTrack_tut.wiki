@@ -2,16 +2,150 @@
 
 = Introduction =
 
-This tutorial is designed to introduce the user to the PointsToTrack class. The purpose of this class is to allow the user to detect and track keypoints from images. These keypoints are then used as the basis for solving the geometry between the images, and ultimately performing Structure-from-Motion.
+This tutorial is designed to introduce the user to the PointsToTrack class. The purpose of this class is to allow the user to detect keypoints from images which can then optionally be tracked. Extracted features are later used as the basis for solving the geometry between the images, and ultimately performing Structure-from-Motion.
 
 This tutorial will cover the following concepts:
 
-# Detection of keypoints in an image.
-# Tracking of keypoints between images.
-# Generating descriptors for sets of keypoints.
+  # Selecting and applying a feature detector to a pair of images.
+  # Selecting and applying a descriptor extractor to a pair of images.
+  #
 
 = Details =
 
-== Detection of keypoints in an image ==
+== Background ==
 
-...tutorial will go here...
+OpenCV provides several popular feature detectors which can be useful for structure from motion. Each of these detectors has changeable parameters which affect the quantity and nature of returned keypoints. Several of the detectors can also be interfaced through an AdjusterAdapter which allows the parameters to be tuned in order to return a particular number of features for a given image. Default parameters should give decent results in most cases, but are unlikely to be effective for unusual environments, or different imaging modalities.
+
+The PointsToTrack class contains a protected member called *std::vector<cv::KeyPoint> keypoints_* where the keypoints from a chosen detector can be stored.  Depending on the nature of the detector used, each keypoint in the vector may store additional information beyond simply the X and Y co-ordinates in the image. Such information may include scale, response (strength), angle or octave.
+
+The class also contains a member variable called *descriptors* which contains a single descriptor (one for each row) corresponding to each keypoint. 
+
+== Example 1: Walkthrough of testPointsToTrack.cpp  ==
+(File found in tutorials folder - may need to uncomment first line in tutorials/CMakeLists.txt to compile.)
+
+  # This initial code should be explained in other tutorials:
+{{{
+  MotionProcessor mp;
+  vector<Mat> masks;
+
+  //first load images:
+  //Here we will a folder with a lot of images, but we can do the same thing with any other type of input
+  mp.setInputSource( FROM_SRC_ROOT( "Medias/temple/" ),IS_DIRECTORY );
+
+  //Configure input ( not needed, but show how we can do
+  mp.setProperty( CV_CAP_PROP_CONVERT_RGB,0 );//Only greyscale, due to SIFT
+  mp.setProperty( CV_CAP_PROP_FRAME_WIDTH,640 );//for test
+  mp.setProperty( CV_CAP_PROP_FRAME_HEIGHT,480 );//idem...
+
+  //universal method to get the current image:
+  Mat firstImage=mp.getFrame( );
+  Mat secondImage=mp.getFrame( );
+
+
+if( firstImage.empty( )||secondImage.empty( ) )
+  {
+    cout<<"test can not be run... can't find different images..."<<endl;
+  }
+  else
+  {
+}}}
+  # Then, if the images are effectively loaded, a SURF feature detector and SURF descriptor extractor are created:
+{{{
+    //if the images are loaded, find the points:
+
+    cout<<"creation of two detection algorithm..."<<endl;
+    Ptr<FeatureDetector> fastDetect;
+    fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );
+    Ptr<DescriptorExtractor> SurfDetect;
+    SurfDetect=Ptr<DescriptorExtractor>( new SurfDescriptorExtractor( ) );
+}}}
+  # Two pointers (one for each image) are then created for the PointsToTrack class. The objects are constructed with the respective image indices, the images themselves, and pointers to the chosen feature detector and descriptor extractor.
+{{{
+cout<<"now create the two set of points with features..."<<endl;
+    Ptr<PointsToTrack> ptt1;
+    ptt1=Ptr<PointsToTrack>( new PointsToTrackWithImage ( 0, firstImage,Mat( ),fastDetect,SurfDetect ));
+    Ptr<PointsToTrack> ptt2;
+    ptt2=Ptr<PointsToTrack>( new PointsToTrackWithImage ( 1, secondImage,Mat( ),fastDetect,SurfDetect ));
+}}}
+  # A Flann matcher is then created to try and match keypoints between images, using the chosen descriptor:
+{{{
+cout<<"now try to find matches, so we create a matcher ( classic bruteForce )"<<endl<<endl;
+    Ptr<DescriptorMatcher> matcher;
+    matcher=Ptr<DescriptorMatcher>( new FlannBasedMatcher( ) );
+
+    //The matches vector is:
+    vector<DMatch> matchesVector;
+
+    //The point matcher will now be created like this:
+    PointsMatcher matches( matcher );
+}}}
+  # The matching is then conducted, and cross-checked:
+{{{
+//We want to find points in img1 which are also in img2.
+    //So we set ptt2 as training data:
+    cout<<"Add points of image 2 as references points"<<endl;
+    matches.add( ptt2 );
+
+    Ptr<PointsMatcher> matches2= matches.clone( );
+    matches2->add( ptt1 );
+    //cross check matches:
+    matches.crossMatch( matches2,matchesVector );
+}}}
+  # Initial matches can then be displayed
+{{{
+Mat outImg;
+    cout<<"Displaying the "<<matchesVector.size( )<<"points..."<<endl;
+    drawMatches( firstImage, ptt1->getKeypoints( ), secondImage,
+      ptt2->getKeypoints( ), matchesVector, outImg );
+    imshow( "PointsMatcher key points",outImg );
+    cv::waitKey( 0 );
+}}}
+  # The format of the matched keypoints is then converted to matrices in order to use the OpenCV function cv::findFundamentalMat():
+{{{
+//First compute points matches:
+    int size_match=matchesVector.size( );
+    Mat srcP( 1,size_match,CV_32FC2 );
+    Mat destP( 1,size_match,CV_32FC2 );
+    vector<uchar> status;
+
+    //vector<KeyPoint> points1 = point_matcher->;
+    for( int i = 0; i < size_match; i ++ ){
+      const KeyPoint &key1 = ptt1->getKeypoint(
+        matchesVector[ i ].queryIdx );
+      const KeyPoint &key2 = ptt2->getKeypoint(
+        matchesVector[ i ].trainIdx );
+      srcP.at<float[ 2 ]>( 0,i )[ 0 ] = key1.pt.x;
+      srcP.at<float[ 2 ]>( 0,i )[ 1 ] = key1.pt.y;
+      destP.at<float[ 2 ]>( 0,i )[ 0 ] = key2.pt.x;
+      destP.at<float[ 2 ]>( 0,i )[ 1 ] = key2.pt.y;
+      status.push_back( 1 );
+    }
+
+Mat fundam = cv::findFundamentalMat( srcP, destP, status, cv::FM_RANSAC );
+}}}
+  # Matching is then further refined using the Fundamental Matrix.
+{{{
+    //refine the mathing :
+    for( int i = 0; i < size_match; ++i ){
+      if( status[ i ] == 0 )
+      {
+        status[ i ] = status[ --size_match ];
+        status.pop_back( );
+        matchesVector[ i-- ] = matchesVector[ size_match ];
+        matchesVector.pop_back( );
+      }
+    }
+}}}
+  # Results are then displayed again to the user
+{{{
+    Mat outImg1;
+    cout<<"Displaying the "<<matchesVector.size( )<<"points..."<<endl;
+    drawMatches( firstImage, ptt1->getKeypoints( ), secondImage,
+      ptt2->getKeypoints( ), matchesVector, outImg1 );
+    imshow( "PointsMatcher key points1",outImg1 );
+    cv::waitKey( 0 );
+  }
+}}}
+
+== Example 2: Changing the detection/description/matching scheme  ==
+(There are currently problems trying some other detectors, descriptors and matchers, but once this is possible there will be instructions here on how to do this.)
