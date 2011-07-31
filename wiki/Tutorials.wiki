@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Introductory tutorials for each class.
 #labels Featured
 
 = Introduction =
@@ -7,4 +7,4 @@ Here you will be able to find an increasing number of tutorials to help introduc
 
 = Details =
 
-Specializing the PointsToTrack class
+Specializing the [PointsToTrack] class
