@@ -7,4 +7,4 @@ Here you will be able to find an increasing number of tutorials to help introduc
 
 = Details =
 
-Specializing the [PointsToTrack] class
+[Tutorial 1]: Specializing the [PointsToTrack] class
