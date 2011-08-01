@@ -1,9 +1,0 @@
-#summary Results of initial testing.
-
-= Introduction =
-
-I've started this page initially just to keep track of how the library is performing at each level, especially in terms of its compatibility with standard OpenCV functions. 
-
-= Details =
-
-[Level0Testing Level0] Finding and matching points
