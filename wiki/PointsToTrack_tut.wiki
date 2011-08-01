@@ -147,32 +147,74 @@ Mat fundam = cv::findFundamentalMat( srcP, destP, status, cv::FM_RANSAC );
   }
 }}}
 
-== Example 2: Changing the detection/description/matching scheme  ==
-(There are currently problems trying some combinations of detectors, descriptors and matchers.)
+== Example 2: Plugging in different detectors  ==
+To try out different types of detectors and detector settings, the following pair of lines must be replaced by the single lines suggested below:
 
-  # Try changing the lower response threshold of the SURF feature detector (default is 400.0) to allow more or fewer initial features. Change the line *`fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );`* to:
 {{{
-fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( 100.00 ) );
-// or
-// fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( 3000.00 ) );
+Ptr<FeatureDetector> fastDetect;
+fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );
 }}}
-  # Try using a different detector such as the FAST detector. Change the same line to:
+
+Use of a detector with default settings:
+
 {{{
-fastDetect=Ptr<FeatureDetector>( new FastFeatureDetector( ) );
+Ptr<FeatureDetector> fastDetect = FeatureDetector::create("CODE");
 }}}
-  # Try using a dynamically adapted feature detector instead, where you can control the number of features you want returned. Replace the same line with:
+
+You can create one of the following 8 types of detectors by replacing *CODE* with one of the following strings:
+
+  * FAST, STAR, SIFT, SURF, ORB, MSER, GFTT, HARRIS
+
+In addition, you can use the default combined detectors by preceding the detector code with either *Grid* or *Pyramid* e.g. 
+
+  * GridFAST, PyramidSTAR etc
+
+When more specifically adapted feature detectors are needed, the following syntax can be used:
+
 {{{
-fastDetect = new DynamicAdaptedFeatureDetector(new FastAdjuster(), 20, 30, 100);
+Ptr<FeatureDetector> fastDetect = new PyramidAdaptedFeatureDetector(FeatureDetector::create("FAST"), 10);
 }}}
-  # Or you can try a pyramid adapter, which in theory should enable a fixed-scale detector to return features at multiple scales:
+
+This includes dynamic adapted feature detectors, which tune themselves to return a specified number of features:
+
 {{{
-fastDetect = new PyramidAdaptedFeatureDetector(new FastFeatureDetector(), 5);
+Ptr<FeatureDetector> fastDetect = new DynamicAdaptedFeatureDetector(AdjusterAdapter::create("FAST"), 3500, 3550, 100);
 }}}
-  # Try changing the descriptor type. Change the line *`SurfDetect=Ptr<DescriptorExtractor>( new SurfDescriptorExtractor( ) );`* to:
+
+When the specific parameters of a feature detector are required to be modified, try the following syntax:
+
 {{{
-SurfDetect=Ptr<DescriptorExtractor>( new SiftDescriptorExtractor( ) );
+Ptr<FeatureDetector> fastDetect = new SurfFeatureDetector( 100.00 );
 }}}
-  # You can change also the matching scheme, from FLANN to brute force (for example).
+
+== Example 3: Changing the Descriptor and matching scheme  ==
+In OpenCV, every detector is compatibile with every descriptor. However, there is some incompatibility between certain descriptors and certain matchers (it appears to mainly be due to data format). The following suggestions are used to replace the descriptor declaration and matcher declaration:
 {{{
-matcher=Ptr<DescriptorMatcher>(new BruteForceMatcher<Hamming>());
+// Descriptor declaration
+Ptr<DescriptorExtractor> SurfDetect;
+SurfDetect=Ptr<DescriptorExtractor>( new SurfDescriptorExtractor( ) );
+
+// Matcher declaration
+Ptr<DescriptorMatcher> matcher;
+matcher=Ptr<DescriptorMatcher>( new FlannBasedMatcher( ) );
 }}}
+The suggested format is:
+{{{
+// Descriptor declaration
+Ptr<DescriptorExtractor> SurfDetect = DescriptorExtractor::create("DESC_CODE");
+
+// Matcher declaration
+Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("MATCH_CODE");
+}}}
+The following matchers are compatible only with the *SIFT* and *SURF* descriptors:
+
+  * BruteForce
+  * BruteForce-L1
+  * FlannBased
+
+The following matching schemes are compatible only with the *ORB* and *BRIEF* descriptors:
+
+  * BruteForce-Hamming
+  * BruteForce-HammingLUT
+
+It is possible to mix and match the descriptors more by converting the data format (e.g. to CV_32F) of the descriptor matrix, but this can sometimes lead to very more matching results.
