@@ -2,52 +2,52 @@
 
 = Introduction =
 
-This tutorial is designed to introduce the user to the PointsToTrack class. The purpose of this class is to allow the user to detect keypoints from images for the purpose of tracking them as the viewpoint is varied. Extracted features are later used as the basis for solving the geometry between the image viewpoints, and ultimately performing Structure-from-Motion.
+This tutorial is designed to introduce the user to the *`PointsToTrack`* class. The purpose of this class is to allow the user to detect keypoints from images for the purpose of tracking them as the viewpoint is varied. Extracted features are later used as the basis for solving the geometry between the image viewpoints, and ultimately performing Structure-from-Motion.
 
 This tutorial will cover the following concepts:
 
-  # Selecting and applying a feature detector on a pair of images.
-  # Selecting and applying a descriptor extractor on a pair of images.
+  # Selecting and applying a feature detector to an image.
+  # Selecting and applying a descriptor extractor to a feature vector.
   # Performing feature matching between images.
 
 = Details =
 
 == Background ==
 
-OpenCV provides several popular feature detectors which can be useful for structure from motion. Each of these detectors has changeable parameters which affect the quantity and nature of returned keypoints. Several of the detectors can also be interfaced through an AdjusterAdapter which allows the parameters to be tuned in order to return a particular number of features for a given image. Default parameters should give decent results in most cases, but are unlikely to be effective for unusual environments, or different imaging modalities.
+OpenCV provides several popular feature detectors which can be useful for structure from motion. Each of these detectors has changeable parameters which affect the quantity and nature of returned keypoints. Several of the detectors can also be interfaced through an *`AdjusterAdapter`* which allows the parameters to be tuned in order to return a particular number of features for a given image. Default parameters should give decent results in most cases, but are unlikely to be effective for unusual environments, or different imaging modalities.
 
-The PointsToTrack class contains a protected member called *std::vector<cv::KeyPoint> keypoints_* where the keypoints from a chosen detector can be stored. Depending on the nature of the detector used, each keypoint in the vector may store additional information beyond simply its X and Y co-ordinates in the image. Such information may include scale, response (strength), angle or octave.
+The *`PointsToTrack`* class contains a protected member called *`keypoints_`* where the keypoints from a chosen detector can be stored. Depending on the nature of the detector used, each keypoint in the vector may store additional information beyond simply its X and Y co-ordinates in the image. Such information may include scale, response (strength), angle or octave.
 
-The class also contains a member variable called *descriptors* which contains a single descriptor (one for each row) corresponding to each keypoint. 
+The class also contains a matrix variable called *`descriptors_`* of which each row corresponds to the descriptor vector for a single keypoint. 
 
 == Example 1: Walkthrough of testPointsToTrack.cpp  ==
 (File found in tutorials folder - may need to uncomment first line in tutorials/CMakeLists.txt to compile.)
 
   # This initial code should be explained in other tutorials:
 {{{
-  MotionProcessor mp;
-  vector<Mat> masks;
+MotionProcessor mp;
+vector<Mat> masks;
 
-  //first load images:
-  //Here we will a folder with a lot of images, but we can do the same thing with any other type of input
-  mp.setInputSource( FROM_SRC_ROOT( "Medias/temple/" ),IS_DIRECTORY );
+//first load images:
+//Here we will a folder with a lot of images, but we can do the same thing with any other type of input
+mp.setInputSource( FROM_SRC_ROOT( "Medias/temple/" ),IS_DIRECTORY );
 
-  //Configure input ( not needed, but show how we can do
-  mp.setProperty( CV_CAP_PROP_CONVERT_RGB,0 );//Only greyscale, due to SIFT
-  mp.setProperty( CV_CAP_PROP_FRAME_WIDTH,640 );//for test
-  mp.setProperty( CV_CAP_PROP_FRAME_HEIGHT,480 );//idem...
+//Configure input ( not needed, but show how we can do
+mp.setProperty( CV_CAP_PROP_CONVERT_RGB,0 );//Only greyscale, due to SIFT
+mp.setProperty( CV_CAP_PROP_FRAME_WIDTH,640 );//for test
+mp.setProperty( CV_CAP_PROP_FRAME_HEIGHT,480 );//idem...
 
-  //universal method to get the current image:
-  Mat firstImage=mp.getFrame( );
-  Mat secondImage=mp.getFrame( );
+//universal method to get the current image:
+Mat firstImage=mp.getFrame( );
+Mat secondImage=mp.getFrame( );
 
 
 if( firstImage.empty( )||secondImage.empty( ) )
-  {
+{
     cout<<"test can not be run... can't find different images..."<<endl;
-  }
-  else
-  {
+}
+else
+{
 }}}
   # Then, if the images are effectively loaded, a SURF feature detector and SURF descriptor extractor are created:
 {{{
@@ -61,7 +61,7 @@ if( firstImage.empty( )||secondImage.empty( ) )
 }}}
   # Two pointers (one for each image) are then created for the PointsToTrack class. The objects are constructed with the respective image indices, the images themselves, and pointers to the chosen feature detector and descriptor extractor.
 {{{
-cout<<"now create the two set of points with features..."<<endl;
+    cout<<"now create the two set of points with features..."<<endl;
     Ptr<PointsToTrack> ptt1;
     ptt1=Ptr<PointsToTrack>( new PointsToTrackWithImage ( 0, firstImage,Mat( ),fastDetect,SurfDetect ));
     Ptr<PointsToTrack> ptt2;
@@ -69,7 +69,7 @@ cout<<"now create the two set of points with features..."<<endl;
 }}}
   # A Flann matcher is then created to try and match keypoints between images, using the chosen descriptor:
 {{{
-cout<<"now try to find matches, so we create a matcher ( classic bruteForce )"<<endl<<endl;
+    cout<<"now try to find matches, so we create a matcher ( classic bruteForce )"<<endl<<endl;
     Ptr<DescriptorMatcher> matcher;
     matcher=Ptr<DescriptorMatcher>( new FlannBasedMatcher( ) );
 
@@ -81,7 +81,7 @@ cout<<"now try to find matches, so we create a matcher ( classic bruteForce )"<<
 }}}
   # The matching is then conducted, and cross-checked:
 {{{
-//We want to find points in img1 which are also in img2.
+    //We want to find points in img1 which are also in img2.
     //So we set ptt2 as training data:
     cout<<"Add points of image 2 as references points"<<endl;
     matches.add( ptt2 );
@@ -93,7 +93,7 @@ cout<<"now try to find matches, so we create a matcher ( classic bruteForce )"<<
 }}}
   # Initial matches can then be displayed
 {{{
-Mat outImg;
+    Mat outImg;
     cout<<"Displaying the "<<matchesVector.size( )<<"points..."<<endl;
     drawMatches( firstImage, ptt1->getKeypoints( ), secondImage,
       ptt2->getKeypoints( ), matchesVector, outImg );
@@ -102,7 +102,7 @@ Mat outImg;
 }}}
   # The format of the matched keypoints is then converted to matrices in order to use the OpenCV function cv::findFundamentalMat():
 {{{
-//First compute points matches:
+    //First compute points matches:
     int size_match=matchesVector.size( );
     Mat srcP( 1,size_match,CV_32FC2 );
     Mat destP( 1,size_match,CV_32FC2 );
@@ -121,7 +121,7 @@ Mat outImg;
       status.push_back( 1 );
     }
 
-Mat fundam = cv::findFundamentalMat( srcP, destP, status, cv::FM_RANSAC );
+    Mat fundam = cv::findFundamentalMat( srcP, destP, status, cv::FM_RANSAC );
 }}}
   # Matching is then further refined using the Fundamental Matrix.
 {{{
@@ -144,38 +144,44 @@ Mat fundam = cv::findFundamentalMat( srcP, destP, status, cv::FM_RANSAC );
       ptt2->getKeypoints( ), matchesVector, outImg1 );
     imshow( "PointsMatcher key points1",outImg1 );
     cv::waitKey( 0 );
-  }
+}
 }}}
 
-== Example 2: Plugging in different detectors  ==
-To try out different types of detectors and detector settings, the following pair of lines must be replaced by the single lines suggested below:
-
+== Example 2: Implementing different keypoint detectors  ==
+OpenCV provides several different interfaces for creating feature detectors. For this example, the following pair of lines from the original *testPointsToTrack.cpp* tutorial will be replaced with various single-line alternatives:
 {{{
 Ptr<FeatureDetector> fastDetect;
 fastDetect=Ptr<FeatureDetector>( new SurfFeatureDetector( ) );
 }}}
 
-Use of a detector with default settings:
+To use a detector with its default settings, the following syntax can be used:
 
 {{{
 Ptr<FeatureDetector> fastDetect = FeatureDetector::create("CODE");
 }}}
 
-You can create one of the following 8 types of detectors by replacing *CODE* with one of the following strings:
+Where *`CODE`* can be replaced with any one of the following strings:
 
-  * FAST, STAR, SIFT, SURF, ORB, MSER, GFTT, HARRIS
+  * `FAST`
+  * `STAR`
+  * `SIFT`
+  * `SURF`
+  * `ORB`
+  * `MSER`
+  * `GFTT`
+  * `HARRIS`
 
-In addition, you can use the default combined detectors by preceding the detector code with either *Grid* or *Pyramid* e.g. 
+Alternatively, combined detectors (also with default settings) can be implemented by preceding the detector code with either *`Grid`* or *`Pyramid`*. For example: 
 
-  * GridFAST, PyramidSTAR etc
+  * `GridFAST`, `PyramidSTAR`, ...
 
-When more specifically adapted feature detectors are needed, the following syntax can be used:
+When the parameters of a combined/adapted feature detector need to be customized, the following syntax can be used:
 
 {{{
 Ptr<FeatureDetector> fastDetect = new PyramidAdaptedFeatureDetector(FeatureDetector::create("FAST"), 10);
 }}}
 
-This includes dynamic adapted feature detectors, which tune themselves to return a specified number of features:
+This includes for dynamic-adapted feature detectors, which tune themselves to return a specified number of features:
 
 {{{
 Ptr<FeatureDetector> fastDetect = new DynamicAdaptedFeatureDetector(AdjusterAdapter::create("FAST"), 3500, 3550, 100);
@@ -187,8 +193,8 @@ When the specific parameters of a feature detector are required to be modified, 
 Ptr<FeatureDetector> fastDetect = new SurfFeatureDetector( 100.00 );
 }}}
 
-== Example 3: Changing the Descriptor and matching scheme  ==
-In OpenCV, every detector is compatibile with every descriptor. However, there is some incompatibility between certain descriptors and certain matchers (it appears to mainly be due to data format). The following suggestions are used to replace the descriptor declaration and matcher declaration:
+== Example 3: Changing the descriptor and matching scheme  ==
+In OpenCV, every detector is compatibile with every descriptor. However, there is some incompatibility between certain descriptors and certain matching schemes (it appears to mainly be due to data format). The descriptor declaration and matcher declaration in the original *testPointsToTrack.cpp* tutorial appear as the following:
 {{{
 // Descriptor declaration
 Ptr<DescriptorExtractor> SurfDetect;
@@ -198,7 +204,7 @@ SurfDetect=Ptr<DescriptorExtractor>( new SurfDescriptorExtractor( ) );
 Ptr<DescriptorMatcher> matcher;
 matcher=Ptr<DescriptorMatcher>( new FlannBasedMatcher( ) );
 }}}
-The suggested format is:
+An alternative single-line format is:
 {{{
 // Descriptor declaration
 Ptr<DescriptorExtractor> SurfDetect = DescriptorExtractor::create("DESC_CODE");
@@ -206,15 +212,33 @@ Ptr<DescriptorExtractor> SurfDetect = DescriptorExtractor::create("DESC_CODE");
 // Matcher declaration
 Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("MATCH_CODE");
 }}}
-The following matchers are compatible only with the *SIFT* and *SURF* descriptors:
+Where *`DESC_CODE`* can be replaced by any one of the following options:
 
-  * BruteForce
-  * BruteForce-L1
-  * FlannBased
+  * `SURF`
+  * `SIFT`
+  * `ORB`
+  * `BRIEF`
 
-The following matching schemes are compatible only with the *ORB* and *BRIEF* descriptors:
+And *`MATCH_CODE`* can be replaced by any one of the following options:
 
-  * BruteForce-Hamming
-  * BruteForce-HammingLUT
+  * `BruteForce`
+  * `BruteForce-L1`
+  * `FlannBased`
+  * `BruteForce-Hamming`
+  * `BruteForce-HammingLUT`
+  
+The current compatibility table (as of 1 August 2011) is the following:
 
-It is possible to mix and match the descriptors more by converting the data format (e.g. to CV_32F) of the descriptor matrix, but this can sometimes lead to very more matching results.
+|| || *`BruteForce`* || *`BruteForce-L1`* || *`FlannBased`* || *`BruteForce-Hamming`* || *`BruteForce-HammingLUT`* ||
+|| *`SURF`* || YES || YES || NO || NO || YES ||
+|| *`SIFT`* || YES || YES || NO || NO || YES ||
+|| *`ORB`* || NO || NO || YES || YES || NO ||
+|| *`BRIEF`* || NO || NO || YES || YES || NO ||
+
+It is possible to mix and match the descriptors more by converting the data format (e.g. to CV_32F) of the descriptor matrix prior to matching, but this can sometimes lead to very poor matching results.
+
+An example for creating a matching scheme object using alternative syntax is the following:
+{{{
+Ptr<DescriptorMatcher> matcher;
+matcher=Ptr<DescriptorMatcher>(new BruteForceMatcher<Hamming>());
+}}}
