@@ -230,10 +230,10 @@ And *`MATCH_CODE`* can be replaced by any one of the following options:
 The current compatibility table (as of 1 August 2011) is the following:
 
 || || *`BruteForce`* || *`BruteForce-L1`* || *`FlannBased`* || *`BruteForce-Hamming`* || *`BruteForce-HammingLUT`* ||
-|| *`SURF`* || YES || YES || NO || NO || YES ||
-|| *`SIFT`* || YES || YES || NO || NO || YES ||
-|| *`ORB`* || NO || NO || YES || YES || NO ||
-|| *`BRIEF`* || NO || NO || YES || YES || NO ||
+|| *`SURF`* || YES || YES || YES || NO || NO ||
+|| *`SIFT`* || YES || YES || YES || NO || NO ||
+|| *`ORB`* || NO || NO || NO || YES || YES ||
+|| *`BRIEF`* || NO || NO || NO || YES || YES ||
 
 It is possible to mix and match the descriptors more by converting the data format (e.g. to CV_32F) of the descriptor matrix prior to matching, but this can sometimes lead to very poor matching results.
 
