@@ -36,3 +36,5 @@ The dependencies of this API are for now:
  * [http://code.google.com/p/libmv/ The libmv project]
  * [http://eigen.tuxfamily.org/ The Eigen library (Needed by PCL and LibMV)]
  * [http://www.boost.org/ The Boost libraries]
+ * [http://www.netlib.org/clapack/ clapack]
+ * [http://www.ics.forth.gr/~lourakis/sba/ lourakis' sba]
