@@ -194,7 +194,9 @@ Ptr<FeatureDetector> fastDetect = new SurfFeatureDetector( 100.00 );
 }}}
 
 == Example 3: Changing the descriptor and matching scheme  ==
-In OpenCV, every detector is compatibile with every descriptor. However, there is some incompatibility between certain descriptors and certain matching schemes (it appears to mainly be due to data format). The descriptor declaration and matcher declaration in the original *testPointsToTrack.cpp* tutorial appear as the following:
+In OpenCV, every detector is compatibile with every descriptor. However, there is some incompatibility between certain descriptors and certain matching schemes. For example, certain descriptors are in the form of binary strings, while others are in the form of vectors of floating point values. Methods of matching descriptors are generally only designed for one category of descriptor.
+
+The descriptor declaration and matcher declaration in the original *testPointsToTrack.cpp* tutorial appear as the following:
 {{{
 // Descriptor declaration
 Ptr<DescriptorExtractor> SurfDetect;
@@ -235,7 +237,7 @@ The current compatibility table (as of 1 August 2011) is the following:
 || *`ORB`* || NO || NO || NO || YES || YES ||
 || *`BRIEF`* || NO || NO || NO || YES || YES ||
 
-It is possible to mix and match the descriptors more by converting the data format (e.g. to CV_32F) of the descriptor matrix prior to matching, but this can sometimes lead to very poor matching results.
+The *`ORB`* and *`BRIEF`* descriptors and *`BruteForce-Hamming`* and *`BruteForce-HammingLUT`* matching schemes generate or accept binary-string descriptors (CV_8U), while the other descriptors and matching schemes generate or accept vectors of floating point values (CV_32F). It is possible to mix and match the descriptors more by converting the data format of the descriptor matrix prior to matching, but this can sometimes lead to very poor matching results, so attempt it with caution.
 
 An example for creating a matching scheme object using alternative syntax is the following:
 {{{
