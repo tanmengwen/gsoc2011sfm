@@ -39,4 +39,4 @@ The dependencies of this API are for now:
  * [http://www.netlib.org/clapack/ clapack]
  * [http://www.ics.forth.gr/~lourakis/sba/ lourakis' sba]
    * [http://icl.cs.utk.edu/lapack-for-windows/clapack/index.html clapack for windows]
-   * [http://www.netlib.org/lapack/ fortran version]
+   * [http://www.netlib.org/lapack/ lapack fortran version]
