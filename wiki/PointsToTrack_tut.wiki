@@ -67,85 +67,6 @@ else
     Ptr<PointsToTrack> ptt2;
     ptt2=Ptr<PointsToTrack>( new PointsToTrackWithImage ( 1, secondImage,Mat( ),fastDetect,SurfDetect ));
 }}}
-  # A Flann matcher is then created to try and match keypoints between images, using the chosen descriptor:
-{{{
-    cout<<"now try to find matches, so we create a matcher ( classic bruteForce )"<<endl<<endl;
-    Ptr<DescriptorMatcher> matcher;
-    matcher=Ptr<DescriptorMatcher>( new FlannBasedMatcher( ) );
-
-    //The matches vector is:
-    vector<DMatch> matchesVector;
-
-    //The point matcher will now be created like this:
-    PointsMatcher matches( matcher );
-}}}
-  # The matching is then conducted, and cross-checked:
-{{{
-    //We want to find points in img1 which are also in img2.
-    //So we set ptt2 as training data:
-    cout<<"Add points of image 2 as references points"<<endl;
-    matches.add( ptt2 );
-
-    Ptr<PointsMatcher> matches2= matches.clone( );
-    matches2->add( ptt1 );
-    //cross check matches:
-    matches.crossMatch( matches2,matchesVector );
-}}}
-  # Initial matches can then be displayed
-{{{
-    Mat outImg;
-    cout<<"Displaying the "<<matchesVector.size( )<<"points..."<<endl;
-    drawMatches( firstImage, ptt1->getKeypoints( ), secondImage,
-      ptt2->getKeypoints( ), matchesVector, outImg );
-    imshow( "PointsMatcher key points",outImg );
-    cv::waitKey( 0 );
-}}}
-  # The format of the matched keypoints is then converted to matrices in order to use the OpenCV function cv::findFundamentalMat():
-{{{
-    //First compute points matches:
-    int size_match=matchesVector.size( );
-    Mat srcP( 1,size_match,CV_32FC2 );
-    Mat destP( 1,size_match,CV_32FC2 );
-    vector<uchar> status;
-
-    //vector<KeyPoint> points1 = point_matcher->;
-    for( int i = 0; i < size_match; i ++ ){
-      const KeyPoint &key1 = ptt1->getKeypoint(
-        matchesVector[ i ].queryIdx );
-      const KeyPoint &key2 = ptt2->getKeypoint(
-        matchesVector[ i ].trainIdx );
-      srcP.at<float[ 2 ]>( 0,i )[ 0 ] = key1.pt.x;
-      srcP.at<float[ 2 ]>( 0,i )[ 1 ] = key1.pt.y;
-      destP.at<float[ 2 ]>( 0,i )[ 0 ] = key2.pt.x;
-      destP.at<float[ 2 ]>( 0,i )[ 1 ] = key2.pt.y;
-      status.push_back( 1 );
-    }
-
-    Mat fundam = cv::findFundamentalMat( srcP, destP, status, cv::FM_RANSAC );
-}}}
-  # Matching is then further refined using the Fundamental Matrix.
-{{{
-    //refine the mathing :
-    for( int i = 0; i < size_match; ++i ){
-      if( status[ i ] == 0 )
-      {
-        status[ i ] = status[ --size_match ];
-        status.pop_back( );
-        matchesVector[ i-- ] = matchesVector[ size_match ];
-        matchesVector.pop_back( );
-      }
-    }
-}}}
-  # Results are then displayed again to the user
-{{{
-    Mat outImg1;
-    cout<<"Displaying the "<<matchesVector.size( )<<"points..."<<endl;
-    drawMatches( firstImage, ptt1->getKeypoints( ), secondImage,
-      ptt2->getKeypoints( ), matchesVector, outImg1 );
-    imshow( "PointsMatcher key points1",outImg1 );
-    cv::waitKey( 0 );
-}
-}}}
 
 == Example 2: Implementing different keypoint detectors  ==
 OpenCV provides several different interfaces for creating feature detectors. For this example, the following pair of lines from the original *testPointsToTrack.cpp* tutorial will be replaced with various single-line alternatives:
@@ -193,7 +114,7 @@ When the specific parameters of a feature detector are required to be modified, 
 Ptr<FeatureDetector> fastDetect = new SurfFeatureDetector( 100.00 );
 }}}
 
-== Example 3: Changing the descriptor and matching scheme  ==
+== Example 3: Changing the descriptor scheme  ==
 In OpenCV, every detector is compatibile with every descriptor. However, there is some incompatibility between certain descriptors and certain matching schemes. For example, certain descriptors are in the form of binary strings, while others are in the form of vectors of floating point values. Methods of matching descriptors are generally only designed for one category of descriptor.
 
 The descriptor declaration and matcher declaration in the original *testPointsToTrack.cpp* tutorial appear as the following:
@@ -201,18 +122,11 @@ The descriptor declaration and matcher declaration in the original *testPointsTo
 // Descriptor declaration
 Ptr<DescriptorExtractor> SurfDetect;
 SurfDetect=Ptr<DescriptorExtractor>( new SurfDescriptorExtractor( ) );
-
-// Matcher declaration
-Ptr<DescriptorMatcher> matcher;
-matcher=Ptr<DescriptorMatcher>( new FlannBasedMatcher( ) );
 }}}
 An alternative single-line format is:
 {{{
 // Descriptor declaration
 Ptr<DescriptorExtractor> SurfDetect = DescriptorExtractor::create("DESC_CODE");
-
-// Matcher declaration
-Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("MATCH_CODE");
 }}}
 Where *`DESC_CODE`* can be replaced by any one of the following options:
 
@@ -220,27 +134,3 @@ Where *`DESC_CODE`* can be replaced by any one of the following options:
   * `SIFT`
   * `ORB`
   * `BRIEF`
-
-And *`MATCH_CODE`* can be replaced by any one of the following options:
-
-  * `BruteForce`
-  * `BruteForce-L1`
-  * `FlannBased`
-  * `BruteForce-Hamming`
-  * `BruteForce-HammingLUT`
-  
-The current compatibility table (as of 1 August 2011) is the following:
-
-|| || *`BruteForce`* || *`BruteForce-L1`* || *`FlannBased`* || *`BruteForce-Hamming`* || *`BruteForce-HammingLUT`* ||
-|| *`SURF`* || YES || YES || YES || NO || NO ||
-|| *`SIFT`* || YES || YES || YES || NO || NO ||
-|| *`ORB`* || NO || NO || NO || YES || YES ||
-|| *`BRIEF`* || NO || NO || NO || YES || YES ||
-
-The *`ORB`* and *`BRIEF`* descriptors and *`BruteForce-Hamming`* and *`BruteForce-HammingLUT`* matching schemes generate or accept binary-string descriptors (CV_8U), while the other descriptors and matching schemes generate or accept vectors of floating point values (CV_32F). It is possible to mix and match the descriptors more by converting the data format of the descriptor matrix prior to matching, but this can sometimes lead to very poor matching results, so attempt it with caution.
-
-An example for creating a matching scheme object using alternative syntax is the following:
-{{{
-Ptr<DescriptorMatcher> matcher;
-matcher=Ptr<DescriptorMatcher>(new BruteForceMatcher<Hamming>());
-}}}
