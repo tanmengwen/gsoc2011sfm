@@ -7,4 +7,5 @@ Here you will be able to find an increasing number of tutorials to help introduc
 
 = Details =
 
-[PointsToTrack_tut Tutorial 1]: Specializing the [PointsToTrack] class
+[load_input  Tutorial 0]: Loading input datas.
+[PointsToTrack_tut Tutorial 1]: Specializing the [PointsToTrack] class.
