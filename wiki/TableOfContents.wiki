@@ -23,3 +23,4 @@
  * [Tutorials]
    * [load_input Loading input datas.]
    * [PointsToTrack_tut Find features in images.]
+   * [Matching_tuto Match features across sequences]
