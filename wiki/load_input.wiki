@@ -61,7 +61,7 @@ Sometimes you want to load a single file but not changing the way you processed 
 }}}
 
 = Setting output =
-You sometimes want to have input in a particular form. For example, when using SIFT detector, you have to work with grayscale images. You can then constrain the frames to be greyscaled using following code:
+You sometimes want to have input in a particular form. For example, when using some points detector, you have to work with grayscale images. You can then constrain the frames to be greyscaled using following code:
 {{{
   input_motion.setProperty( CV_CAP_PROP_CONVERT_RGB, 0);
 }}}
