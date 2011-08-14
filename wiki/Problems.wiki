@@ -4,6 +4,7 @@
 
 When using a few matches (approx 80) between two cameras, the bundle adjustement find a strange solution: the two cameras are really close... I made a video to show this:
 
+<wiki:video url="http://www.youtube.com/watch?v=YWinHaZUvw8"/>
 
 As you see, before bundle adjustment, the configuration is close to the correct one, but after nothing is good :(
 
