@@ -1,0 +1,15 @@
+#summary List of current problems
+
+= Bundle adjustement =
+
+When using a few matches (approx 80) between two cameras, the bundle adjustement find a strange solution: the two cameras are really close... I made a video to show this:
+
+
+As you see, before bundle adjustment, the configuration is close to the correct one, but after nothing is good :(
+
+
+= Automatic tracking =
+
+Even using fundamental constraints, the matches are sometimes not good... How can we robustly reject outliers even if they are on epilines? 
+
+This problem is not really problematic for now because I use fully parameterized camera so I can reject bad matches using reprojection error, but when dealing with real data, we will have to face such problem!
