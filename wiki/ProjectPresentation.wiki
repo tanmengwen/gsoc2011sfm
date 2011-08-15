@@ -28,7 +28,7 @@ Also you will use [http://www.charlie-soft.com/Structure%20from%20motion/Doc/ th
 
 I made a little video to show current reconstruction progress. This is not really a structure from motion as the cameras are fully parameterized, but it's a start:
 
-<wiki:video url="http://www.youtube.com/watch?v=KUkq6EinXCE"/>
+<wiki:video url="http://www.youtube.com/watch?v=9M4KWgRGNa0"/>
 
 The dependencies of this API are for now:
  * [http://opencv.willowgarage.com Opencv]
