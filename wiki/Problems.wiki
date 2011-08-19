@@ -10,9 +10,8 @@ As you see, before bundle adjustment, the configuration is close to the correct 
 
 = KRT_from_P problems =
 
-I tried to get KRt from projection matrix of Model House dataset: http://www.robots.ox.ac.uk/~vgg/data/data-mview.html
+Thanks to [http://michot.julien.free.fr/drupal/index.php Julien Michot], this problem is now solved. Thanks again for this!
 
-The camera matrix are given in a 4*3 matrix, so I use the KRT_from_P function from libmv to extract K, R and t. This function use the RQ decomposition proposed by Hartley,Zisserman, but the rotation matrix R isn't a rotation matrix. Indeed, the determinant is not 1, it is -1. This type of matrix are called [http://en.wikipedia.org/wiki/Improper_rotation improper rotation] and I can't find a way to recover R. Intuitively we can decompose R (the improper rotation) into `M * (R')`, but I can't find M... Any idea? (maybe I don't take the problem from the right point)
 
 = Automatic tracking =
 
