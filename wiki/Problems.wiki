@@ -12,6 +12,9 @@ As you see, before bundle adjustment, the configuration is close to the correct 
 
 Thanks to [http://michot.julien.free.fr/drupal/index.php Julien Michot], this problem is now solved. Thanks again for this!
 
+The problem was sometimes the KRT_from_P function from libmv to extract K, R and t don't find correct rotation matrix. This function use the RQ decomposition proposed by Hartley,Zisserman, but the the determinant of the rotation matrix R was not 1, it is -1. This type of matrix are called [http://en.wikipedia.org/wiki/Improper_rotation improper rotation].
+
+It's now an old story...
 
 = Automatic tracking =
 
