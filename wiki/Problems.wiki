@@ -6,7 +6,9 @@ When using a few matches (approx 80) between two cameras, the bundle adjustement
 
 <wiki:video url="http://www.youtube.com/watch?v=YWinHaZUvw8"/>
 
-As you see, before bundle adjustment, the configuration is close to the correct one, but after nothing is good :(
+As you see, before bundle adjustment, the configuration is close to the correct one, but after the bundle nothing is good :(
+
+I think it's due to the object's shape whose close to a plane... If someone has already had this issue, please tell me, this will help me!
 
 = KRT_from_P problems =
 
