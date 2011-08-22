@@ -1,0 +1,23 @@
+#summary Euclidean reconstruction of a sequence
+
+= Introduction =
+
+This tutorial will try to introduce the "euclidean reconstruction" offered by this API. This means that we will see how we can find camera position and geometry automatically!
+
+For ease of reading, in this tuto we expect that the intra parameters don't change across the sequence. It's not a strong requirement as this API allow wariations, but it's easier to explain.
+
+We need an estimation of the intra configuration of the camera. We need theses five parameters:
+  * The focal (x) (value usually between 1000 and 2500)
+  * The focal_y_ (can be set equal to focal_x_)
+  * The principal_point_x_ (can be set to image width/2)
+  * The principal_point_y_ (can be set to image height/2)
+  * The skew (can be set to 0)
+
+As the points detection, extraction and matching are fully parametrable, we have to choose the one we will use. For details about detectors, we can [PointsToTrack_tut read this tutorial] or see the [http://opencv.itseez.com/modules/features2d/doc/feature_detection_and_description.html Opencv reference manual]. For the matching, [Matching_tuto this tutorial] explains the correct relation between matcher and descriptors...
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
