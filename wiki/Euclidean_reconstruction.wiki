@@ -4,9 +4,7 @@
 
 This tutorial will try to introduce the "euclidean reconstruction" offered by this API. This means that we will see how we can find camera position and geometry automatically!
 
-For ease of reading, in this tuto we expect that the intra parameters don't change across the sequence. It's not a strong requirement as this API allow wariations, but it's easier to explain.
-
-We need an estimation of the intra configuration of the camera. We need theses five parameters:
+For ease of reading, in this tuto we expect that the intra parameters don't change across the sequence. It's not a strong requirement as this API allow wariations, but it's easier to explain. We also need an estimation of the intra configuration of the camera. We need theses five parameters:
   * The focal (x) (value usually between 1000 and 2500)
   * The focal_y_ (can be set equal to focal_x_)
   * The principal_point_x_ (can be set to image width/2)
@@ -75,4 +73,14 @@ We are now ready to find matches between each images:
 
   motion_estim.computeMatches( );
   SequenceAnalyzer::keepOnlyCorrectMatches(motion_estim,2,0);
+}}}
+
+Finally, compute the 3D estimation:
+{{{
+  //now create the euclidean estimator:
+  EuclideanEstimator pe( motion_estim, myCameras );
+  pe.computeReconstruction( );
+
+  //finally show reconstruction:
+  pe.viewEstimation();
 }}}
